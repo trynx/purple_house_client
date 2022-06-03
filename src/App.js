@@ -1,13 +1,12 @@
 import { Route, Switch } from "react-router-dom";
-import MainNavigation from "./components/layout/MainNavigation";
+import Layout from "./components/layout/Layout";
 import AllCandidates from "./pages/AllCandidates";
 import AllJobs from "./pages/AllJobs";
 import Login from "./pages/Login";
 
 function App() {
     return (
-        <div>
-            <MainNavigation />
+        <Layout>
             <Switch>
                 <Route path='/' exact>
                     <Login />
@@ -19,7 +18,7 @@ function App() {
                     <AllCandidates />
                 </Route>
             </Switch>
-        </div>
+        </Layout>
     );
 }
 

@@ -1,14 +1,11 @@
-import Job from "./Job";
-
-export default function ShowJobList() {
-    const jobData = {
-        position: "FrontEnd",
-    };
-
+import JobItem from "./JobItem";
+import classes from "./JobList.module.css";
+export default function ShowJobList({ allJobs }) {
     return (
-        <>
-            <h1>Jobs</h1>
-            <Job jobData={jobData} />
-        </>
+        <ul className={classes.list}>
+            {allJobs.map((job) => (
+                <JobItem jobData={job} key={job.id} />
+            ))}
+        </ul>
     );
 }

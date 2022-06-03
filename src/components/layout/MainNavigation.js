@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
+import classes from "./MainNavigation.module.css";
 
 export default function MainNavigation() {
     return (
-        <header>
-            <div>Purple House</div>
+        <header className={classes.header}>
+            <div className={classes.logo}>Purple House</div>
             <nav>
                 <ul>
                     <li>
