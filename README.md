@@ -4,7 +4,7 @@ This is the clien side for the app 'Purple House'.
 
 [For Server side](https://github.com/trynx/purple_house_server)
 
-This is a React app
+This is an app which uses: React, Routers and axios
 
 [add technologies/frameworks as I'm implementing them]
 
