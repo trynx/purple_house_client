@@ -1,9 +1,9 @@
-import ShowJobList from "./components/ShowJobList";
+import JobList from "./components/job/JobList";
 
 function App() {
     return (
         <div>
-            <ShowJobList />
+            <JobList />
         </div>
     );
 }
