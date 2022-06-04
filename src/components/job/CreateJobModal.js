@@ -1,19 +1,25 @@
+import { useState } from "react";
 import classes from "./CreateJobModal.module.css";
 
-export default function CreateJobModal({ onClose }) {
-    const createHandler = (e) => {
+export default function CreateJobModal({ onClose, onCreateJob }) {
+    const [isCreatingJob, setIsCreatingJob] = useState(false);
+
+    console.log({ isCreatingJob });
+    const createHandler = async (e) => {
         e.preventDefault();
 
         const form = e.target;
 
         // Get each form value by it's id
-        const newJob = {
+        const jobData = {
             position: form["position"].value,
             department: form["department"].value,
             office: form["office"].value,
         };
 
-        console.log({ newJob });
+        setIsCreatingJob(true);
+        await onCreateJob(jobData);
+
         onClose();
     };
 
@@ -70,7 +76,12 @@ export default function CreateJobModal({ onClose }) {
                     >
                         Cancel
                     </button>
-                    <button type="submit" className="btn">
+                    {/* TODO: Add loading spinner */}
+                    <button
+                        type="submit"
+                        className={`btn ${isCreatingJob ? "btn--disable" : ""}`}
+                        disabled={isCreatingJob}
+                    >
                         Create
                     </button>
                 </div>

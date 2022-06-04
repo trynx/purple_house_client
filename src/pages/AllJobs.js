@@ -1,6 +1,6 @@
 import JobList from "../components/job/JobList";
 import CreateJobButton from "../components/job/CreateJobButton";
-
+import { useHistory } from "react-router-dom";
 const DUMMY_DATA = [
     {
         id: "j1",
@@ -29,12 +29,37 @@ const DUMMY_DATA = [
 ];
 
 export default function AllJobs() {
-    // TODO: Add CreateJob
+    const history = useHistory();
+
+    const onCreateJob = async (jobData) => {
+        // TODO: Send to server the create
+        // TODO: Add axios instead of fetch?
+        // TODO: Where is best to save the URL?
+        const url = "localhost:8088/api/job/create";
+
+        // TODO: How to save the token and retrive here?
+        // await fetch(url, {
+        //     method: "POST",
+        //     body: JSON.stringify(jobData),
+        //     headers: {
+        //         "Content-type": "application/json",
+        //     },
+        // });
+
+        // Can do history.push to save and be able to do 'back'
+        // or just history.replace to not save it
+        // history.push("/");
+
+        console.log("Send new job", { jobData });
+        return new Promise((resolve) => {
+            setTimeout(resolve, 1000);
+        });
+    };
     return (
         <>
             <JobList allJobs={DUMMY_DATA} />
             {/* Should be a floating button */}
-            <CreateJobButton />
+            <CreateJobButton onCreateJob={onCreateJob} />
         </>
     );
 }
