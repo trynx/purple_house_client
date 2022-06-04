@@ -1,27 +1,22 @@
 import { useState } from "react";
-import Backdrop from "./Backdrop";
-import CreateJobModal from "./CreateJobModal";
 
 export default function JobItem({ jobData }) {
-    const [modalIsOpen, setModalIsOpen] = useState(false);
     const { position, department, office, candidates, daysOpen } = jobData;
 
     const handleClick = (event) => {
-        setModalIsOpen(true);
-    };
-
-    const closeModalHandler = () => {
-        setModalIsOpen(false);
+        // TODO: Download resume
+        console.log("Download resume");
     };
 
     return (
-        <li className='card'>
+        <li className="card">
             <div
                 style={{
                     display: "flex",
                     alignItems: "baseline",
                     gap: "1rem",
-                }}>
+                }}
+            >
                 <h4> Position:</h4>
                 <p>{position}</p>
                 <h4> Department:</h4>
@@ -33,13 +28,11 @@ export default function JobItem({ jobData }) {
                 <h4> DaysOpen:</h4>
                 <p>{daysOpen}</p>
             </div>
-            <div className='actions'>
-                <button className='btn' onClick={handleClick}>
+            <div className="actions">
+                <button className="btn" onClick={handleClick}>
                     Push Me
                 </button>
             </div>
-            {modalIsOpen && <CreateJobModal onClose={closeModalHandler} />}
-            {modalIsOpen && <Backdrop onCancel={closeModalHandler} />}
         </li>
     );
 }

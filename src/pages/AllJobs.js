@@ -1,4 +1,6 @@
 import JobList from "../components/job/JobList";
+import CreateJobButton from "../components/job/CreateJobButton";
+
 const DUMMY_DATA = [
     {
         id: "j1",
@@ -27,5 +29,12 @@ const DUMMY_DATA = [
 ];
 
 export default function AllJobs() {
-    return <JobList allJobs={DUMMY_DATA} />;
+    // TODO: Add CreateJob
+    return (
+        <>
+            <JobList allJobs={DUMMY_DATA} />
+            {/* Should be a floating button */}
+            <CreateJobButton />
+        </>
+    );
 }
