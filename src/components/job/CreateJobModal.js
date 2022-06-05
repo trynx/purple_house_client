@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Modal from "../../ui/modal/Modal";
 import classes from "./CreateJobModal.module.css";
 
 export default function CreateJobModal({ onClose, onCreateJob }) {
@@ -27,7 +28,7 @@ export default function CreateJobModal({ onClose, onCreateJob }) {
     };
 
     return (
-        <div className='modal'>
+        <Modal>
             <form className={classes.form} onSubmit={createHandler}>
                 <h2>Create Job</h2>
                 <div className={classes.control}>
@@ -80,6 +81,6 @@ export default function CreateJobModal({ onClose, onCreateJob }) {
                     </button>
                 </div>
             </form>
-        </div>
+        </Modal>
     );
 }

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import Backdrop from "../../ui/modal/Backdrop";
-import CreateJobModal from "./CreateJobModal";
+import CreateCandidateModal from "./CreateCandidateModal";
 
-export default function CreateJobButton({ onCreateJob }) {
+export default function CreateCandidateButton({ onCreateCandidate }) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const handleClick = (event) => {
         setModalIsOpen(true);
@@ -18,9 +18,9 @@ export default function CreateJobButton({ onCreateJob }) {
                 +
             </button>
             {modalIsOpen && (
-                <CreateJobModal
+                <CreateCandidateModal
                     onClose={closeModalHandler}
-                    onCreateJob={onCreateJob}
+                    onCreateCandidate={onCreateCandidate}
                 />
             )}
             {modalIsOpen && <Backdrop onCancel={closeModalHandler} />}

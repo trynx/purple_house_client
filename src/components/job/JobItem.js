@@ -13,11 +13,6 @@ export default function JobItem({ jobData }) {
 
     const daysOpen = daysDifference(openDay, currDay);
 
-    const handleClick = (event) => {
-        // TODO: Download resume
-        console.log("Download resume");
-    };
-
     return (
         <li className='card'>
             <div
@@ -36,11 +31,6 @@ export default function JobItem({ jobData }) {
                 <p>{candidates.length}</p>
                 <h4> DaysOpen:</h4>
                 <p>{daysOpen}</p>
-            </div>
-            <div className='actions'>
-                <button className='btn' onClick={handleClick}>
-                    Push Me
-                </button>
             </div>
         </li>
     );

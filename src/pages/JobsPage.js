@@ -92,7 +92,6 @@ export default function AllJobs() {
             // TODO: Where is best to save the URL?
             const url = "http://localhost:8088/api/job/create";
 
-            // TODO: How to save the token and retrive here?
             const result = await fetch(url, {
                 method: "POST",
                 body: JSON.stringify(jobData),
