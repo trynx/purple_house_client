@@ -4,7 +4,9 @@ import classes from "./MainNavigation.module.css";
 export default function MainNavigation() {
     return (
         <header className={classes.header}>
-            <div className={classes.logo}>Purple House</div>
+            <Link to='/' className={classes.logo}>
+                Purple House
+            </Link>
             <nav>
                 <ul>
                     <li>

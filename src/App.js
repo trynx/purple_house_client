@@ -1,21 +1,21 @@
 import { Route, Switch } from "react-router-dom";
 import Layout from "./components/layout/Layout";
-import AllCandidates from "./pages/AllCandidates";
-import AllJobs from "./pages/AllJobs";
-import Login from "./pages/Login";
+import AuthPage from "./pages/AuthPage";
+import CandidatesPage from "./pages/CandidatesPage";
+import JobsPage from "./pages/JobsPage";
 
 function App() {
     return (
         <Layout>
             <Switch>
                 <Route path='/' exact>
-                    <Login />
+                    <AuthPage />
                 </Route>
                 <Route path='/jobs'>
-                    <AllJobs />
+                    <JobsPage />
                 </Route>
                 <Route path='/candidates'>
-                    <AllCandidates />
+                    <CandidatesPage />
                 </Route>
             </Switch>
         </Layout>
