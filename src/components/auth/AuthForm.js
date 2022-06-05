@@ -48,7 +48,7 @@ export default function AuthForm() {
                             ? data.message
                             : "Issue with register";
 
-                        // FIX: Small bug that can still see 'Loading..' because the alert stop the React update loop
+                        // FIXME: Small bug that can still see 'Loading..' because the alert stop the React update loop
                         alert(errorMsg);
                     });
                 }
@@ -80,7 +80,7 @@ export default function AuthForm() {
                             ? data.message
                             : "Issue with register";
 
-                        // FIX: Small bug that can still see 'Loading..' because the alert stop the React update loop
+                        // FIXME: Small bug that can still see 'Loading..' because the alert stop the React update loop
                         alert(errorMsg);
                     });
                     return;

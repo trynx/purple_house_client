@@ -10,36 +10,7 @@ export default function AllJobs() {
     const authCtx = useContext(AuthContext);
     const history = useHistory();
 
-    const onCreateJob = async (jobData) => {
-        // TODO: Send to server the create
-        // TODO: Add axios instead of fetch?
-        // TODO: Where is best to save the URL?
-        const url = "localhost:8088/api/job/create";
-
-        // TODO: How to save the token and retrive here?
-        const { result, error } = await fetch(url, {
-            method: "POST",
-            body: JSON.stringify(jobData),
-            headers: {
-                "Content-type": "application/json",
-                "x-access-token": authCtx.token,
-            },
-        });
-
-        const data = await result.json();
-
-        if (!result.ok) {
-        }
-        // Can do history.push to save and be able to do 'back'
-        // or just history.replace to not save it
-        // history.push("/");
-
-        console.log("Send new job", { jobData });
-        return new Promise((resolve) => {
-            setTimeout(resolve, 1000);
-        });
-    };
-
+    // TODO: Research how to do it globally and that don't need to manually add it for each request
     const retryToken = useCallback(async () => {
         const result = await fetch(
             `http://localhost:8088/api/auth/refreshtoken`,
@@ -98,7 +69,6 @@ export default function AllJobs() {
                 // TODO: Can add better error showing
                 setIsLoading(false);
                 setJobs([]);
-                return;
             }
 
             return;
@@ -109,6 +79,53 @@ export default function AllJobs() {
         setIsLoading(false);
         setJobs(jobs);
     }, [authCtx.token, retryToken]);
+
+    const onCreateJob = useCallback(
+        async (jobData) => {
+            // TODO: Add axios instead of fetch?
+            // TODO: Where is best to save the URL?
+            const url = "http://localhost:8088/api/job/create";
+
+            // TODO: How to save the token and retrive here?
+            const result = await fetch(url, {
+                method: "POST",
+                body: JSON.stringify(jobData),
+                headers: {
+                    "Content-type": "application/json",
+                    "x-access-token": authCtx.token,
+                },
+            });
+
+            const data = await result.json();
+
+            if (!result.ok) {
+                if (!data) {
+                    alert("Issue with creating a job");
+                    return;
+                }
+
+                // Some error in the server while retriving the jobs
+                if (!data.isRetry) {
+                    alert(data.message);
+                    return;
+                }
+
+                const isTokenRefreshed = await retryToken();
+                if (!isTokenRefreshed) {
+                    alert("Issue with creating jobs");
+                }
+
+                return;
+            }
+
+            // Can do history.push to save and be able to do 'back'
+            // or just history.replace to not save it
+
+            console.log("Added new job", { jobData });
+            getJobs();
+        },
+        [authCtx.token, retryToken, getJobs]
+    );
 
     useEffect(() => {
         getJobs();
@@ -122,7 +139,7 @@ export default function AllJobs() {
     return (
         <>
             <JobList allJobs={jobs} />
-            {/* Should be a floating button */}
+            {/* TODO: Should be a floating button */}
             <CreateJobButton onCreateJob={onCreateJob} />
         </>
     );
