@@ -55,16 +55,6 @@ export default function CreateJobModal({ onClose, onCreateJob }) {
                         required
                         placeholder='Office'></input>
                 </div>
-                {/* TODO: Upload file - Have guide in lecture 475 - Resourcers*/}
-                {/* <div className={classes.control}>
-                    <label htmlFor="resume">Resume - Uploadfile</label>
-                    <input
-                        type="text"
-                        id="resume"
-                        required
-                        placeholder="Upload file"
-                    ></input>
-                </div> */}
                 <div>
                     <button
                         type='button'

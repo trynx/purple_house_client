@@ -4,29 +4,40 @@ import classes from "./CreateCandidateModal.module.css";
 
 export default function CreateCandidateModal({ onClose, onCreateCandidate }) {
     const [isCreatingCandidate, setIsCreatingCandidate] = useState(false);
+    const [file, setFile] = useState();
 
     const createHandler = async (e) => {
         e.preventDefault();
 
         const form = e.target;
 
+        let candidateData = new FormData();
+
         // Get each form value by it's id
-        const candidateData = {
-            name: form["name"].value,
-            email: form["email"].value,
-            phone: form["phone"].value,
-            currentJob: form["currentJob"].value,
-            position: form["position"].value,
-        };
+        candidateData.append("name", form["name"].value);
+        candidateData.append("email", form["email"].value);
+        candidateData.append("phone", form["phone"].value);
+        candidateData.append("currentJob", form["currentJob"].value);
+        candidateData.append("position", form["position"].value);
+        candidateData.append("file", file);
 
         setIsCreatingCandidate(true);
-        await onCreateCandidate(candidateData);
+        const isSuccess = await onCreateCandidate(candidateData);
 
-        onClose();
+        if (isSuccess) {
+            onClose();
+            return;
+        }
+
+        setIsCreatingCandidate(false);
     };
 
     const cancelHandler = () => {
         onClose();
+    };
+
+    const saveFile = (e) => {
+        setFile(e.target.files[0]);
     };
 
     return (
@@ -70,8 +81,15 @@ export default function CreateCandidateModal({ onClose, onCreateCandidate }) {
                     <label htmlFor='position'>Position Id[temp]</label>
                     <input type='text' id='position' required></input>
                 </div>
-
-                {/* TODO: Upload file */}
+                <div className={classes.control}>
+                    <label htmlFor='resume'>Upload Resume</label>
+                    <input
+                        type='file'
+                        id='resume'
+                        onChange={saveFile}
+                        placeholder='Resume'
+                    />
+                </div>
                 <div>
                     <button
                         type='button'

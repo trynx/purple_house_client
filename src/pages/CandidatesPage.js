@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useCallback, useContext, useEffect, useState } from "react";
 import CandidateList from "../components/candidate/CandidateList";
 import CreateCandidateButton from "../components/candidate/CreateCandidateButton";
@@ -87,22 +88,33 @@ export default function AllCandidates() {
     // but all the candidateData will be lost and not resend.
     const onCreateCandidate = useCallback(
         async (candidateData) => {
-            // TODO: Add axios instead of fetch?
             // TODO: Where is best to save the URL?
             const url = "http://localhost:8088/api/candidate/create";
 
-            const result = await fetch(url, {
-                method: "POST",
-                body: JSON.stringify(candidateData),
-                headers: {
-                    "Content-type": "application/json",
-                    "x-access-token": authCtx.token,
-                },
-            });
+            let result;
+            try {
+                result = await axios.post(url, candidateData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                        "x-access-token": authCtx.token,
+                    },
+                });
+            } catch (err) {
+                let errorMsg =
+                    err.response?.data?.message ??
+                    "Issue with creating a candidate";
+                alert(errorMsg);
+                return;
+            }
 
-            const data = await result.json();
+            if (!result) {
+                alert("Issue with creating a candidate");
+                return;
+            }
 
-            if (!result.ok) {
+            const data = await result.data;
+
+            if (result.statusText !== "OK") {
                 if (!data) {
                     alert("Issue with creating a candidate");
                     return;
@@ -126,6 +138,8 @@ export default function AllCandidates() {
                 candidateData: candidateData,
             });
             getCandidates();
+
+            return true;
         },
         [authCtx.token, retryToken, getCandidates]
     );
@@ -141,14 +155,14 @@ export default function AllCandidates() {
 
     return (
         <>
+            {/* TODO: Should be a floating button */}
+            <CreateCandidateButton onCreateCandidate={onCreateCandidate} />
             {candidates.length === 0 && (
                 <p>There are not candidates yet, add a candidate</p>
             )}
             {candidates.length > 0 && (
                 <CandidateList allCandidates={candidates} />
             )}
-            {/* TODO: Should be a floating button */}
-            <CreateCandidateButton onCreateCandidate={onCreateCandidate} />
         </>
     );
 }
