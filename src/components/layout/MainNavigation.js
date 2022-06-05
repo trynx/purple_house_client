@@ -3,6 +3,7 @@ import classes from "./MainNavigation.module.css";
 
 export default function MainNavigation() {
     return (
+        // TODO: Can add logout here
         <header className={classes.header}>
             <Link to='/' className={classes.logo}>
                 Purple House

@@ -1,9 +1,13 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { useHistory } from "react-router-dom";
+import AuthContext from "../../store/auth-context";
 import classes from "./AuthForm.module.css";
 
 export default function AuthForm() {
     const [isLogin, setIsLogin] = useState(true);
     const [isLoading, setIsloading] = useState(false);
+    const history = useHistory();
+    const authCtx = useContext(AuthContext);
 
     const switchAuthFormHandler = () => {
         setIsLogin((prevState) => !prevState);
@@ -52,7 +56,13 @@ export default function AuthForm() {
                 // TODO: On success change to 'Jobs' page and save token + refresh token
                 return res.json().then((data) => {
                     console.log("Logged in! :)");
-                    console.log({ data });
+
+                    const { accessToken, refreshToken } = data;
+                    authCtx.login(accessToken, refreshToken);
+
+                    // TODO: Maybe save all the routers in a the context
+                    // manager, to avoid typos and use intellisense
+                    history.replace("/jobs");
                 });
             });
         } else {
@@ -80,6 +90,7 @@ export default function AuthForm() {
 
                 // TODO: On success say that it worked and change to the login page
                 console.log("Successfully registered :)");
+                setIsLogin(true);
             });
         }
     };
