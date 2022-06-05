@@ -1,37 +1,13 @@
-import JobList from "../components/job/JobList";
-import CreateJobButton from "../components/job/CreateJobButton";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useEffect, useState } from "react";
-const DUMMY_DATA = [
-    {
-        id: "j1",
-        position: "FrontEnd",
-        department: "R&D",
-        office: "TelAviv",
-        candidates: "2",
-        daysOpen: "5",
-    },
-    {
-        id: "j2",
-        position: "BackEnd",
-        department: "R&D",
-        office: "TelAviv",
-        candidates: "1",
-        daysOpen: "2",
-    },
-    {
-        id: "j3",
-        position: "FullStack",
-        department: "R&D",
-        office: "TelAviv",
-        candidates: "4",
-        daysOpen: "15",
-    },
-];
+import CreateJobButton from "../components/job/CreateJobButton";
+import JobList from "../components/job/JobList";
+import AuthContext from "../store/auth-context";
 
 export default function AllJobs() {
     const [isLoading, setIsLoading] = useState(true);
     const [jobs, setJobs] = useState([]);
+    const authCtx = useContext(AuthContext);
     const history = useHistory();
 
     const onCreateJob = async (jobData) => {
@@ -41,14 +17,19 @@ export default function AllJobs() {
         const url = "localhost:8088/api/job/create";
 
         // TODO: How to save the token and retrive here?
-        // await fetch(url, {
-        //     method: "POST",
-        //     body: JSON.stringify(jobData),
-        //     headers: {
-        //         "Content-type": "application/json",
-        //     },
-        // });
+        const { result, error } = await fetch(url, {
+            method: "POST",
+            body: JSON.stringify(jobData),
+            headers: {
+                "Content-type": "application/json",
+                "x-access-token": authCtx.token,
+            },
+        });
 
+        const data = await result.json();
+
+        if (!result.ok) {
+        }
         // Can do history.push to save and be able to do 'back'
         // or just history.replace to not save it
         // history.push("/");
@@ -59,31 +40,82 @@ export default function AllJobs() {
         });
     };
 
-    const getJobs = async () => {
+    const retryToken = useCallback(async () => {
+        const result = await fetch(
+            `http://localhost:8088/api/auth/refreshtoken`,
+            {
+                method: "POST",
+                body: JSON.stringify({ refreshToken: authCtx.refreshToken }),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        );
+
+        const data = await result.json();
+
+        if (!result.ok) {
+            console.error(data);
+            authCtx.logout();
+            return false;
+        }
+
+        console.log("Refresh token");
+        const { accessToken, refreshToken } = data;
+        authCtx.login(accessToken, refreshToken);
+        return true;
+    }, [authCtx]);
+
+    const getJobs = useCallback(async () => {
         setIsLoading(true);
 
         // TODO: Change as needed to the backend url
-        // const url = "localhost:8088/api/job/";
-        // const result = await fetch(url);
-        // const data = await result.json();
+        const url = "http://localhost:8088/api/job/";
 
-        // Test
-        setTimeout(() => {
-            // TODO: Manipulation on data as needed to array
-            // const jobs = data...
-            const jobs = DUMMY_DATA;
+        const result = await fetch(url, {
+            headers: {
+                "Content-type": "application/json",
+                "x-access-token": authCtx.token,
+            },
+        });
 
-            setIsLoading(false);
-            setJobs(jobs);
-        }, 1000);
-    };
+        const data = await result.json();
+
+        if (!result.ok) {
+            if (!data) {
+                alert("Issue with retriving jobs");
+                return;
+            }
+
+            // Some error in the server while retriving the jobs
+            if (!data.isRetry) {
+                alert(data.message);
+                return;
+            }
+
+            const isTokenRefreshed = await retryToken();
+            if (!isTokenRefreshed) {
+                // TODO: Can add better error showing
+                setIsLoading(false);
+                setJobs([]);
+                return;
+            }
+
+            return;
+        }
+
+        const jobs = data;
+
+        setIsLoading(false);
+        setJobs(jobs);
+    }, [authCtx.token, retryToken]);
 
     useEffect(() => {
         getJobs();
-    }, []);
+    }, [getJobs]);
 
     if (isLoading) {
-        // TODO: Add spinner
+        // TODO: Can add spinner
         return <p>Loading jobs...</p>;
     }
 

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 const AuthContext = React.createContext({
     token: "",
+    refreshToken: "",
     isLoggedIn: false,
     login: (token, refreshToken) => {},
     logout: () => {},
@@ -10,6 +11,10 @@ const AuthContext = React.createContext({
 const retriveToken = () => {
     // Used for persisten logged in
     const token = localStorage.getItem("token");
+
+    // TODO: Check how to validate that the current token is not expired
+    // and how to check that the token is valid
+    // TODO: Add ExpiryDate from token
     const refreshToken = localStorage.getItem("refreshToken");
 
     if (!token) {
@@ -25,12 +30,13 @@ const retriveToken = () => {
 export const AuthContextProvider = ({ children }) => {
     const tokenData = retriveToken();
     const [token, setToken] = useState(tokenData?.token);
+    const [refreshToken, setRefreshToken] = useState(tokenData?.refreshToken);
 
     const userIsLoggedIn = !!token;
 
     const loginHandler = (token, refreshToken) => {
-        console.log(token, refreshToken);
         setToken(token);
+        setRefreshToken(refreshToken);
 
         // TODO: This is basic storage, can research for more secure way
         localStorage.setItem("token", token);
@@ -45,6 +51,7 @@ export const AuthContextProvider = ({ children }) => {
 
     const contextValue = {
         token,
+        refreshToken,
         isLoggedIn: userIsLoggedIn,
         login: loginHandler,
         logout: logoutHandler,

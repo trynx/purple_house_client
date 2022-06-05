@@ -26,12 +26,12 @@ export default function AuthForm() {
         // TODO: Can add validation of the parameters
 
         // TODO: Save the url on a global place (redux?)
-        // TODO: Change to axios
         const url = "http://localhost:8088";
 
         setIsloading(true);
 
         if (isLogin) {
+            // TODO: Change to axios
             fetch(`${url}/api/auth/signin`, {
                 method: "POST",
                 body: JSON.stringify(user),
@@ -55,8 +55,6 @@ export default function AuthForm() {
 
                 // TODO: On success change to 'Jobs' page and save token + refresh token
                 return res.json().then((data) => {
-                    console.log("Logged in! :)");
-
                     const { accessToken, refreshToken } = data;
                     authCtx.login(accessToken, refreshToken);
 
@@ -89,7 +87,6 @@ export default function AuthForm() {
                 }
 
                 // TODO: On success say that it worked and change to the login page
-                console.log("Successfully registered :)");
                 setIsLogin(true);
             });
         }

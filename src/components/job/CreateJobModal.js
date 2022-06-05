@@ -4,7 +4,6 @@ import classes from "./CreateJobModal.module.css";
 export default function CreateJobModal({ onClose, onCreateJob }) {
     const [isCreatingJob, setIsCreatingJob] = useState(false);
 
-    console.log({ isCreatingJob });
     const createHandler = async (e) => {
         e.preventDefault();
 
@@ -28,35 +27,32 @@ export default function CreateJobModal({ onClose, onCreateJob }) {
     };
 
     return (
-        <div className="modal">
+        <div className='modal'>
             <form className={classes.form} onSubmit={createHandler}>
                 <h2>Create Job</h2>
                 <div className={classes.control}>
-                    <label htmlFor="position">Position</label>
+                    <label htmlFor='position'>Position</label>
                     <input
-                        type="text"
-                        id="position"
+                        type='text'
+                        id='position'
                         required
-                        placeholder="Position"
-                    ></input>
+                        placeholder='Position'></input>
                 </div>
                 <div className={classes.control}>
-                    <label htmlFor="department">Department</label>
+                    <label htmlFor='department'>Department</label>
                     <input
-                        type="text"
-                        id="department"
+                        type='text'
+                        id='department'
                         required
-                        placeholder="Department"
-                    ></input>
+                        placeholder='Department'></input>
                 </div>
                 <div className={classes.control}>
-                    <label htmlFor="office">Office</label>
+                    <label htmlFor='office'>Office</label>
                     <input
-                        type="text"
-                        id="office"
+                        type='text'
+                        id='office'
                         required
-                        placeholder="Office"
-                    ></input>
+                        placeholder='Office'></input>
                 </div>
                 {/* TODO: Upload file - Have guide in lecture 475 - Resourcers*/}
                 {/* <div className={classes.control}>
@@ -70,18 +66,16 @@ export default function CreateJobModal({ onClose, onCreateJob }) {
                 </div> */}
                 <div>
                     <button
-                        type="button"
-                        className="btn btn--alt"
-                        onClick={cancelHandler}
-                    >
+                        type='button'
+                        className='btn btn--alt'
+                        onClick={cancelHandler}>
                         Cancel
                     </button>
                     {/* TODO: Add loading spinner */}
                     <button
-                        type="submit"
+                        type='submit'
                         className={`btn ${isCreatingJob ? "btn--disable" : ""}`}
-                        disabled={isCreatingJob}
-                    >
+                        disabled={isCreatingJob}>
                         Create
                     </button>
                 </div>
