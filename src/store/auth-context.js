@@ -10,6 +10,7 @@ const AuthContext = React.createContext({
 const retriveToken = () => {
     // Used for persisten logged in
     const token = localStorage.getItem("token");
+    const refreshToken = localStorage.getItem("refreshToken");
 
     if (!token) {
         return null;
@@ -17,6 +18,7 @@ const retriveToken = () => {
 
     return {
         token,
+        refreshToken,
     };
 };
 
@@ -37,7 +39,8 @@ export const AuthContextProvider = ({ children }) => {
 
     const logoutHandler = () => {
         setToken(null);
-        // TODO: Add logic of logout as needed
+        localStorage.removeItem("token");
+        localStorage.removeItem("refreshToken");
     };
 
     const contextValue = {
