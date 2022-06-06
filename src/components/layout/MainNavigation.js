@@ -1,10 +1,9 @@
-import { useContext } from "react";
 import { Link } from "react-router-dom";
-import AuthContext from "../../store/auth-context";
+import { useAuthCtx } from "../../store/auth-context";
 import classes from "./MainNavigation.module.css";
 
 export default function MainNavigation() {
-    const authCtx = useContext(AuthContext);
+    const authCtx = useAuthCtx();
 
     return (
         <header className={classes.header}>

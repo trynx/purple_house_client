@@ -92,4 +92,14 @@ export const AuthContextProvider = ({ children }) => {
     );
 };
 
-export default AuthContext;
+// For reference look at https://kentcdodds.com/blog/how-to-use-react-context-effectively#the-custom-consumer-hook
+export const useAuthCtx = () => {
+    const context = React.useContext(AuthContext);
+    if (context === undefined) {
+        throw new Error("useAuthCtx must be used within a AuthContextProvider");
+    }
+
+    return context;
+};
+
+// export default AuthContext;

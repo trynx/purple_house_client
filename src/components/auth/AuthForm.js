@@ -1,13 +1,13 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useHistory } from "react-router-dom";
-import AuthContext from "../../store/auth-context";
+import { useAuthCtx } from "../../store/auth-context";
 import classes from "./AuthForm.module.css";
 
 export default function AuthForm() {
     const [isLogin, setIsLogin] = useState(true);
     const [isLoading, setIsloading] = useState(false);
     const history = useHistory();
-    const authCtx = useContext(AuthContext);
+    const authCtx = useAuthCtx();
 
     const switchAuthFormHandler = () => {
         setIsLogin((prevState) => !prevState);

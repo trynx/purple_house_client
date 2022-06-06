@@ -1,13 +1,15 @@
 import axios from "axios";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import CandidateList from "../components/candidate/CandidateList";
 import CreateCandidateButton from "../components/candidate/CreateCandidateButton";
-import AuthContext from "../store/auth-context";
+import { useAuthCtx } from "../store/auth-context";
+import { useJobCtx } from "../store/job-context";
 
 export default function AllCandidates() {
     const [isLoading, setIsLoading] = useState(true);
     const [candidates, setCandidates] = useState([]);
-    const authCtx = useContext(AuthContext);
+    const authCtx = useAuthCtx();
+    const jobCtx = useJobCtx();
 
     const getCandidates = useCallback(async () => {
         setIsLoading(true);

@@ -1,10 +1,9 @@
 import axios from "axios";
-import { useContext } from "react";
-import AuthContext from "../../store/auth-context";
+import { useAuthCtx } from "../../store/auth-context";
 
 export default function CandidateItem({ candidateData }) {
     const { name, currentJob, position, resumeKey } = candidateData;
-    const authCtx = useContext(AuthContext);
+    const authCtx = useAuthCtx();
 
     const handleClick = async (event) => {
         // TODO: Where is best to save the URL?
