@@ -4,6 +4,7 @@ import CandidateList from "../components/candidate/CandidateList";
 import CreateCandidateButton from "../components/candidate/CreateCandidateButton";
 import { useAuthCtx } from "../store/auth-context";
 import { useJobCtx } from "../store/job-context";
+import SelectPosition from "../ui/Select/SelectPosition";
 
 export default function AllCandidates() {
     const [isLoading, setIsLoading] = useState(true);
@@ -130,13 +131,28 @@ export default function AllCandidates() {
 
     return (
         <>
+            <SelectPosition
+                positions={jobCtx.positions}
+                setCurrPosition={jobCtx.setCurrPosition}
+                title='Filter By Position'
+            />
             {/* TODO: Should be a floating button */}
             <CreateCandidateButton onCreateCandidate={onCreateCandidate} />
             {candidates.length === 0 && (
                 <p>There are not candidates yet, add a candidate</p>
             )}
             {candidates.length > 0 && (
-                <CandidateList allCandidates={candidates} />
+                <CandidateList
+                    allCandidates={
+                        jobCtx.currPosition
+                            ? candidates.filter(
+                                  (candidate) =>
+                                      candidate.position.position ===
+                                      jobCtx.currPosition
+                              )
+                            : candidates
+                    }
+                />
             )}
         </>
     );

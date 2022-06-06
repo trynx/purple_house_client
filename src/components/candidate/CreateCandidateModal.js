@@ -1,16 +1,31 @@
 import { useState } from "react";
+import { useJobCtx } from "../../store/job-context";
 import Modal from "../../ui/modal/Modal";
+import SelectPosition from "../../ui/Select/SelectPosition";
 import classes from "./CreateCandidateModal.module.css";
 
 export default function CreateCandidateModal({ onClose, onCreateCandidate }) {
     const [isCreatingCandidate, setIsCreatingCandidate] = useState(false);
     const [file, setFile] = useState();
+    const [currPositionId, setCurrPositionId] = useState();
+    const jobCtx = useJobCtx();
 
     const createHandler = async (e) => {
         e.preventDefault();
 
         const form = e.target;
 
+        if (!currPositionId) {
+            alert("Please select a position");
+            return;
+        }
+
+        if (!file) {
+            alert("Please upload a resume");
+            return;
+        }
+
+        // const positionId = jobCtx.jobs();
         let candidateData = new FormData();
 
         // Get each form value by it's id
@@ -18,13 +33,15 @@ export default function CreateCandidateModal({ onClose, onCreateCandidate }) {
         candidateData.append("email", form["email"].value);
         candidateData.append("phone", form["phone"].value);
         candidateData.append("currentJob", form["currentJob"].value);
-        candidateData.append("position", form["position"].value);
+        candidateData.append("position", currPositionId);
         candidateData.append("file", file);
 
         setIsCreatingCandidate(true);
         const isSuccess = await onCreateCandidate(candidateData);
 
         if (isSuccess) {
+            // After done creating the candidate, refresh the jobs list
+            jobCtx.getJobs();
             onClose();
             return;
         }
@@ -76,11 +93,17 @@ export default function CreateCandidateModal({ onClose, onCreateCandidate }) {
                         required
                         placeholder='Current Job'></input>
                 </div>
-                {/* TODO: Drop down of positions options */}
-                <div className={classes.control}>
-                    <label htmlFor='position'>Position Id[temp]</label>
-                    <input type='text' id='position' required></input>
-                </div>
+                <SelectPosition
+                    positions={jobCtx.jobs.map((job) => {
+                        return {
+                            id: job._id,
+                            name: job.position,
+                            office: job.office,
+                        };
+                    })}
+                    setCurrPosition={setCurrPositionId}
+                    title='Select Position'
+                />
                 <div className={classes.control}>
                     <label htmlFor='resume'>Upload Resume</label>
                     <input

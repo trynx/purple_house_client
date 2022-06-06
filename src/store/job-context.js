@@ -16,6 +16,7 @@ export const JobContextProvider = ({ children }) => {
     // TODO: jobs, positions and currPosition can be a reducer?
     const [jobs, setJobs] = useState([]);
     const [positions, setPositions] = useState([]);
+    const [currPositionId, setCurrPositionId] = useState(null);
     const [currPosition, setCurrPosition] = useState(null);
     const authCtx = useAuthCtx();
 
@@ -136,6 +137,12 @@ export const JobContextProvider = ({ children }) => {
         setPositions(positionArr);
     }, [jobs]);
 
+    useEffect(() => {
+        setCurrPosition(
+            jobs.find((job) => job._id === currPositionId)?.position
+        );
+    }, [currPositionId, jobs]);
+
     const contextValue = {
         isLoading,
         jobs,
@@ -143,7 +150,7 @@ export const JobContextProvider = ({ children }) => {
         currPosition,
         onCreateJob: onCreateJobHandler,
         getJobs: getJobsHandler,
-        setCurrPosition,
+        setCurrPosition: setCurrPositionId,
     };
 
     return (
