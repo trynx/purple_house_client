@@ -6,6 +6,7 @@ const AuthContext = React.createContext({
     isLoggedIn: false,
     login: (token, refreshToken) => {},
     logout: () => {},
+    retryToken: async () => {},
 });
 
 const retriveToken = () => {
@@ -49,12 +50,39 @@ export const AuthContextProvider = ({ children }) => {
         localStorage.removeItem("refreshToken");
     };
 
+    const retryTokenHandler = async () => {
+        const result = await fetch(
+            `http://localhost:8088/api/auth/refreshtoken`,
+            {
+                method: "POST",
+                body: JSON.stringify({ refreshToken }),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        );
+
+        const data = await result.json();
+
+        if (!result.ok) {
+            console.error(data);
+            logoutHandler();
+            return false;
+        }
+
+        console.log("Refresh token");
+        const { accessToken, newRefreshToken } = data;
+        loginHandler(accessToken, newRefreshToken);
+        return true;
+    };
+
     const contextValue = {
         token,
         refreshToken,
         isLoggedIn: userIsLoggedIn,
         login: loginHandler,
         logout: logoutHandler,
+        retryToken: retryTokenHandler,
     };
 
     return (

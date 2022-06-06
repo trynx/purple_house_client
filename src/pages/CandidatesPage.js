@@ -9,33 +9,6 @@ export default function AllCandidates() {
     const [candidates, setCandidates] = useState([]);
     const authCtx = useContext(AuthContext);
 
-    // TODO: Research how to do it globally and that don't need to manually add it for each request
-    const retryToken = useCallback(async () => {
-        const result = await fetch(
-            `http://localhost:8088/api/auth/refreshtoken`,
-            {
-                method: "POST",
-                body: JSON.stringify({ refreshToken: authCtx.refreshToken }),
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            }
-        );
-
-        const data = await result.json();
-
-        if (!result.ok) {
-            console.error(data);
-            authCtx.logout();
-            return false;
-        }
-
-        console.log("Refresh token");
-        const { accessToken, refreshToken } = data;
-        authCtx.login(accessToken, refreshToken);
-        return true;
-    }, [authCtx]);
-
     const getCandidates = useCallback(async () => {
         setIsLoading(true);
 
@@ -63,7 +36,7 @@ export default function AllCandidates() {
                     return;
                 }
 
-                const isTokenRefreshed = await retryToken();
+                const isTokenRefreshed = await authCtx.retryToken();
                 if (!isTokenRefreshed) {
                     // TODO: Can add better error showing
                     setIsLoading(false);
@@ -81,7 +54,7 @@ export default function AllCandidates() {
             console.error("Error at CandidatesPage fetch all candidates");
             console.error(err);
         }
-    }, [authCtx.token, retryToken]);
+    }, [authCtx]);
 
     // FIXME: As for now there is a bug, when the token is refreshed
     // when sent to create a new candidate, it'll refresh the token
@@ -126,7 +99,7 @@ export default function AllCandidates() {
                     return;
                 }
 
-                const isTokenRefreshed = await retryToken();
+                const isTokenRefreshed = await authCtx.retryToken();
                 if (!isTokenRefreshed) {
                     alert("Issue with creating a candidate");
                 }
@@ -141,7 +114,7 @@ export default function AllCandidates() {
 
             return true;
         },
-        [authCtx.token, retryToken, getCandidates]
+        [authCtx, getCandidates]
     );
 
     useEffect(() => {

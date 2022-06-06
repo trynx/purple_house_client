@@ -2,41 +2,20 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import CreateJobButton from "../components/job/CreateJobButton";
 import JobList from "../components/job/JobList";
 import AuthContext from "../store/auth-context";
+import SelectPosition from "../ui/Select/SelectPosition";
 
 export default function AllJobs() {
     const [isLoading, setIsLoading] = useState(true);
+    // TODO: jobs, positions and currPosition can be a reducer?
     const [jobs, setJobs] = useState([]);
+    const [positions, setPositions] = useState([]);
+    const [currPosition, setCurrPosition] = useState(null);
     const authCtx = useContext(AuthContext);
-
-    // TODO: Research how to do it globally and that don't need to manually add it for each request
-    const retryToken = useCallback(async () => {
-        const result = await fetch(
-            `http://localhost:8088/api/auth/refreshtoken`,
-            {
-                method: "POST",
-                body: JSON.stringify({ refreshToken: authCtx.refreshToken }),
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            }
-        );
-
-        const data = await result.json();
-
-        if (!result.ok) {
-            console.error(data);
-            authCtx.logout();
-            return false;
-        }
-
-        console.log("Refresh token");
-        const { accessToken, refreshToken } = data;
-        authCtx.login(accessToken, refreshToken);
-        return true;
-    }, [authCtx]);
 
     const getJobs = useCallback(async () => {
         setIsLoading(true);
+
+        console.log("Get Jobs");
 
         // TODO: Change as needed to the backend url
         const url = "http://localhost:8088/api/job/";
@@ -63,7 +42,7 @@ export default function AllJobs() {
                     return;
                 }
 
-                const isTokenRefreshed = await retryToken();
+                const isTokenRefreshed = await authCtx.retryToken();
                 if (!isTokenRefreshed) {
                     // TODO: Can add better error showing
                     setIsLoading(false);
@@ -81,7 +60,7 @@ export default function AllJobs() {
             console.error("Error at JobPage fetch all jobs");
             console.error(err);
         }
-    }, [authCtx.token, retryToken]);
+    }, [authCtx]);
 
     // FIXME: As for now there is a bug, when the token is refreshed
     // when sent to create a new job, it'll refresh the token
@@ -92,7 +71,7 @@ export default function AllJobs() {
             // TODO: Where is best to save the URL?
             const url = "http://localhost:8088/api/job/create";
 
-            const result = await fetch(url, {
+            const result = await await fetch(url, {
                 method: "POST",
                 body: JSON.stringify(jobData),
                 headers: {
@@ -115,26 +94,40 @@ export default function AllJobs() {
                     return;
                 }
 
-                const isTokenRefreshed = await retryToken();
+                const isTokenRefreshed = await authCtx.retryToken();
                 if (!isTokenRefreshed) {
                     alert("Issue with creating jobs");
+                    return;
                 }
 
+                // Token refreshed
                 return;
             }
 
-            // Can do history.push to save and be able to do 'back'
-            // or just history.replace to not save it
-
-            console.log("Added new job", { jobData });
             getJobs();
         },
-        [authCtx.token, retryToken, getJobs]
+        [authCtx, getJobs]
     );
 
     useEffect(() => {
         getJobs();
     }, [getJobs]);
+
+    useEffect(() => {
+        // Filter duplicate positions and save the position name and id
+        // to be used for the select list
+        const jobsHelper = {};
+        const positionArr = [];
+
+        jobs.forEach((job) => {
+            if (!jobsHelper[job.position]) {
+                jobsHelper[job.position] = true;
+                positionArr.push({ name: job.position, id: job._id });
+            }
+        });
+
+        setPositions(positionArr);
+    }, [jobs]);
 
     if (isLoading) {
         // TODO: Can add spinner
@@ -143,8 +136,24 @@ export default function AllJobs() {
 
     return (
         <>
+            <SelectPosition
+                positions={positions}
+                setCurrPosition={setCurrPosition}
+                title='Filter By Job'
+            />
+
             {jobs.length === 0 && <p>There are not jobs yet, add a job</p>}
-            {jobs.length > 0 && <JobList allJobs={jobs} />}
+            {jobs.length > 0 && (
+                <JobList
+                    allJobs={
+                        currPosition
+                            ? jobs.filter(
+                                  (job) => job.position === currPosition
+                              )
+                            : jobs
+                    }
+                />
+            )}
             {/* TODO: Should be a floating button */}
             <CreateJobButton onCreateJob={onCreateJob} />
         </>

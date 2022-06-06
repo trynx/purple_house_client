@@ -1,42 +1,12 @@
 import axios from "axios";
-import { useCallback, useContext } from "react";
+import { useContext } from "react";
 import AuthContext from "../../store/auth-context";
 
 export default function CandidateItem({ candidateData }) {
     const { name, currentJob, position, resumeKey } = candidateData;
     const authCtx = useContext(AuthContext);
 
-    // TODO: Research how to do it globally and that don't need to manually add it for each request
-    const retryToken = useCallback(async () => {
-        const result = await fetch(
-            `http://localhost:8088/api/auth/refreshtoken`,
-            {
-                method: "POST",
-                body: JSON.stringify({ refreshToken: authCtx.refreshToken }),
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            }
-        );
-
-        const data = await result.json();
-
-        if (!result.ok) {
-            console.error(data);
-            authCtx.logout();
-            return false;
-        }
-
-        console.log("Refresh token");
-        const { accessToken, refreshToken } = data;
-        authCtx.login(accessToken, refreshToken);
-        return true;
-    }, [authCtx]);
-
     const handleClick = async (event) => {
-        // TODO: Download resume
-        console.log("Download resume");
-
         // TODO: Where is best to save the URL?
         const url = "http://localhost:8088/api/candidate/resume";
 
@@ -80,11 +50,12 @@ export default function CandidateItem({ candidateData }) {
                 return;
             }
 
-            const isTokenRefreshed = await retryToken();
+            const isTokenRefreshed = await authCtx.retryToken();
             if (!isTokenRefreshed) {
                 alert("Issue with downloading the resume a candidate");
             }
 
+            // Refresh token
             return;
         }
 
@@ -98,6 +69,17 @@ export default function CandidateItem({ candidateData }) {
         link.click();
     };
 
+    // TODO: useEffect for the search by candidate name, after x ms
+    /* 
+    useEffect(() => {
+        // Debounce
+        const timerId = setTimeout(500, setCandaitaeName());
+
+        return () => {
+            clearTimeout(timerId);
+        }
+    })
+     */
     return (
         <li className='card'>
             {/* TODO: Data profile component */}
