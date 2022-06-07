@@ -2,6 +2,7 @@ import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import CandidateList from "../components/candidate/CandidateList";
 import CreateCandidateButton from "../components/candidate/CreateCandidateButton";
+import SearchCandidate from "../components/candidate/SearchCandidate";
 import { useAuthCtx } from "../store/auth-context";
 import { useJobCtx } from "../store/job-context";
 import SelectPosition from "../ui/Select/SelectPosition";
@@ -9,6 +10,7 @@ import SelectPosition from "../ui/Select/SelectPosition";
 export default function AllCandidates() {
     const [isLoading, setIsLoading] = useState(true);
     const [candidates, setCandidates] = useState([]);
+    const [candidateSearch, setCandidateSearch] = useState("");
     const authCtx = useAuthCtx();
     const jobCtx = useJobCtx();
 
@@ -29,13 +31,13 @@ export default function AllCandidates() {
 
             if (!result.ok) {
                 if (!data) {
-                    alert("Issue with retriving candidates");
+                    console.error("Issue with retriving candidates");
                     return;
                 }
 
                 // Some error in the server while retriving the candidates
                 if (!data.isRetry) {
-                    alert(data.message);
+                    console.error(data.message);
                     return;
                 }
 
@@ -44,6 +46,7 @@ export default function AllCandidates() {
                     // TODO: Can add better error showing
                     setIsLoading(false);
                     setCandidates([]);
+                    return;
                 }
 
                 return;
@@ -129,30 +132,50 @@ export default function AllCandidates() {
         return <p>Loading candidates...</p>;
     }
 
+    const getVisibleCandidates = () => {
+        // Have at least one option to filter
+        if (!jobCtx.currPosition && !!!candidateSearch) {
+            return candidates;
+        }
+
+        const candidatesVisible = candidates.filter((candidate) => {
+            // The position is valid if there is no currPosition or are the same as the candidate position
+            const isPositionValid = !(
+                !!jobCtx.currPosition &&
+                candidate.position.position !== jobCtx.currPosition
+            );
+
+            // The candidate is valid if there is no values candidateSearch or are the same as the candidate position
+            const isNameValid = !(
+                !!candidateSearch &&
+                !candidate.name.toLowerCase().startsWith(candidateSearch)
+            );
+
+            return isPositionValid && isNameValid;
+        });
+
+        return candidatesVisible;
+    };
+
+    const visibleCandidates = getVisibleCandidates();
+
     return (
         <>
-            <SelectPosition
-                positions={jobCtx.positions}
-                setCurrPosition={jobCtx.setCurrPosition}
-                title='Filter By Position'
-            />
+            <div>
+                <SearchCandidate filterCandidates={setCandidateSearch} />
+                <SelectPosition
+                    positions={jobCtx.positions}
+                    setCurrPosition={jobCtx.setCurrPosition}
+                    title='Filter By Position'
+                />
+            </div>
             {/* TODO: Should be a floating button */}
             <CreateCandidateButton onCreateCandidate={onCreateCandidate} />
             {candidates.length === 0 && (
                 <p>There are not candidates yet, add a candidate</p>
             )}
             {candidates.length > 0 && (
-                <CandidateList
-                    allCandidates={
-                        jobCtx.currPosition
-                            ? candidates.filter(
-                                  (candidate) =>
-                                      candidate.position.position ===
-                                      jobCtx.currPosition
-                              )
-                            : candidates
-                    }
-                />
+                <CandidateList allCandidates={visibleCandidates} />
             )}
         </>
     );

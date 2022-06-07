@@ -40,13 +40,13 @@ export const JobContextProvider = ({ children }) => {
 
             if (!result.ok) {
                 if (!data) {
-                    alert("Issue with retriving jobs");
+                    console.error("Issue with retriving jobs");
                     return;
                 }
 
                 // Some error in the server while retriving the jobs
                 if (!data.isRetry) {
-                    alert(data.message);
+                    console.error(data.message);
                     return;
                 }
 

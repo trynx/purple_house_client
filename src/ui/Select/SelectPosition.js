@@ -1,13 +1,18 @@
 import { Select, Space } from "antd";
 import "antd/dist/antd.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const { Option } = Select;
 
+const ALL_KEY = "all";
+
 export default function SelectPosition({ positions, setCurrPosition, title }) {
+    const [isAllPositionSelected, setIsAllPositionSelected] = useState(false);
+
     const handleChange = (e) => {
-        // message.info("Click on menu item.");
-        setCurrPosition(e === "all" ? null : e);
+        setIsAllPositionSelected(e !== ALL_KEY);
+
+        setCurrPosition(e === ALL_KEY ? null : e);
     };
 
     // Used to clean the current position, so it doesn't affect
@@ -23,6 +28,11 @@ export default function SelectPosition({ positions, setCurrPosition, title }) {
                 style={{ width: 200 }}
                 onChange={handleChange}
                 placeholder={title}>
+                {/*Only show the 'All Positions' option at the begin state
+                and when the 'All Position' is selected */}
+                {isAllPositionSelected && (
+                    <Option key={ALL_KEY}>All Positions</Option>
+                )}
                 {positions.map((position) => {
                     return (
                         <Option key={position.id}>
