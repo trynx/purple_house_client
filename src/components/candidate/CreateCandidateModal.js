@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useJobCtx } from "../../store/job-context";
 import Modal from "../../ui/modal/Modal";
-import SelectPosition from "../../ui/Select/SelectPosition";
+import SelectPosition from "../../ui/select/SelectPosition";
 import classes from "./CreateCandidateModal.module.css";
 
 export default function CreateCandidateModal({ onClose, onCreateCandidate }) {
@@ -105,6 +105,7 @@ export default function CreateCandidateModal({ onClose, onCreateCandidate }) {
                     title='Select Position'
                 />
                 <div className={classes.control}>
+                    {/* https://ant.design/components/space/ */}
                     <label htmlFor='resume'>Upload Resume</label>
                     <input
                         type='file'

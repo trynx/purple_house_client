@@ -1,7 +1,7 @@
 import CreateJobButton from "../components/job/CreateJobButton";
 import JobList from "../components/job/JobList";
 import { useJobCtx } from "../store/job-context";
-import SelectPosition from "../ui/Select/SelectPosition";
+import SelectPosition from "../ui/select/SelectPosition";
 
 export default function AllJobs() {
     const jobCtx = useJobCtx();

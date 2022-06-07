@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { useAuthCtx } from "../../store/auth-context";
 import classes from "./MainNavigation.module.css";
-
 export default function MainNavigation() {
     const authCtx = useAuthCtx();
 

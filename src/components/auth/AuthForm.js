@@ -1,7 +1,65 @@
+import { SyncOutlined } from "@ant-design/icons";
+import { Input, message } from "antd";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
+import styled from "styled-components";
 import { useAuthCtx } from "../../store/auth-context";
-import classes from "./AuthForm.module.css";
+import RegularButton from "../../ui/button/RegularButton";
+
+const FormControl = styled.div`
+    // display: flex;
+    // align-items: center;
+    // height: 100vh;
+
+    margin: 3rem auto;
+    width: 95%;
+    max-width: 25rem;
+    border-radius: 6px;
+    /* background-color: #77002e; */
+    /* box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2); */
+    /* padding: 1rem; */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    h1 {
+        color: #6659e0;
+    }
+`;
+
+const FormInput = styled.div`
+    margin-bottom: 3rem;
+    width: 15rem;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+
+    &:hover {
+        color: #848dea;
+    }
+`;
+
+const FormActions = styled.div`
+    margin-top: 7rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+
+    .toggle {
+        cursor: pointer;
+        margin-top: 2rem;
+        background-color: transparent;
+        color: #6659e0;
+        border: none;
+        padding: 0.15rem 1.5rem;
+        text-decoration: underline;
+    }
+
+    .toggle:hover {
+        background-color: transparent;
+        color: #2a37c0;
+    }
+`;
 
 export default function AuthForm() {
     const [isLogin, setIsLogin] = useState(true);
@@ -75,63 +133,58 @@ export default function AuthForm() {
 
                 if (!res.ok) {
                     res.json().then((data) => {
-                        // TODO: Can add better error visual
                         let errorMsg = data?.message
                             ? data.message
                             : "Issue with register";
 
-                        // FIXME: Small bug that can still see 'Loading..' because the alert stop the React update loop
-                        alert(errorMsg);
+                        message.error(errorMsg);
                     });
                     return;
                 }
 
-                // TODO: On success say that it worked and change to the login page
                 setIsLogin(true);
             });
         }
     };
+
     return (
-        <section className={classes.auth}>
-            <h1>{isLogin ? "Login" : "Register"}</h1>
+        <FormControl>
+            {/* <h1>{isLogin ? "Login" : "Register"}</h1> */}
             <form onSubmit={submitHandler}>
-                <div className={classes.control}>
-                    <label htmlFor='email'>Email</label>
-                    <input
+                <FormInput>
+                    <Input
                         id='email'
                         type='email'
                         required
                         autoComplete='username'
+                        placeholder='Email'
                     />
-                </div>
-                <div className={classes.control}>
-                    <label htmlFor='password'>Password</label>
-                    <input
+                </FormInput>
+                <FormInput>
+                    <Input
                         id='password'
                         type='password'
                         required
                         autoComplete='current-password'
                         minLength='8'
+                        placeholder='Password'
                     />
-                </div>
-                <div className={classes.actions}>
-                    {!isLoading && (
-                        <button type='submit'>
-                            {isLogin ? "Login" : "Create Account"}
-                        </button>
-                    )}
-                    {/* TODO: Basic showing loading, can add spinner */}
-                    {isLoading && <p>Loading...</p>}
+                </FormInput>
+                <FormActions>
+                    <RegularButton type='submit'>
+                        {!isLoading && (isLogin ? "Login" : "Create Account")}
+                        {isLoading && <SyncOutlined spin />}
+                    </RegularButton>
                     <button
                         type='button'
-                        className={classes.toggle}
+                        className='toggle'
                         onClick={switchAuthFormHandler}>
                         {isLogin
-                            ? "Create New Account"
+                            ? "Not register? Click here"
                             : "Login with existing account"}
                     </button>
-                </div>
+                </FormActions>
             </form>
-        </section>
+        </FormControl>
     );
 }

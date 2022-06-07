@@ -5,7 +5,7 @@ import CreateCandidateButton from "../components/candidate/CreateCandidateButton
 import SearchCandidate from "../components/candidate/SearchCandidate";
 import { useAuthCtx } from "../store/auth-context";
 import { useJobCtx } from "../store/job-context";
-import SelectPosition from "../ui/Select/SelectPosition";
+import SelectPosition from "../ui/select/SelectPosition";
 
 export default function AllCandidates() {
     const [isLoading, setIsLoading] = useState(true);
