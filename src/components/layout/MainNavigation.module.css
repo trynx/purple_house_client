@@ -1,4 +1,4 @@
-.header {
+/* .header {
     width: 100%;
     height: 5rem;
     display: flex;
@@ -60,4 +60,12 @@
     border-radius: 12px;
     padding: 0 1rem;
     margin-left: 0.5rem;
+} */
+
+/* .ant-tabs-tab.ant-tabs-tab-active {
+    color: "orange";
 }
+
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+    color: red;
+} */
