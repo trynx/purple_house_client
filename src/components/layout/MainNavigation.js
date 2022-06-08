@@ -10,7 +10,7 @@ export default function MainNavigation() {
     const history = useHistory();
 
     if (!authCtx.isLoggedIn) {
-        return <p>Please log in..</p>;
+        return <></>;
     }
 
     const changeHandler = (router) => {
@@ -24,7 +24,7 @@ export default function MainNavigation() {
             className={classes}
             tabBarStyle={{ color: "#6659e0" }}
             style={{
-                marginTop: "2rem",
+                paddingTop: "2rem",
                 marginRight: "1rem",
             }}
             tabBarExtraContent={
