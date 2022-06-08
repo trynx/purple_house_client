@@ -8,6 +8,13 @@ This is an app which uses: React, Routers and axios
 
 [add technologies/frameworks as I'm implementing them]
 
+# Colors palette
+
+-   Primary: ![](https://via.placeholder.com/15/6659e0/000000?text=+) #6659e0 -- For Text, icons, etc..
+-   Secondary: ![](https://via.placeholder.com/15/c8cdd0/000000?text=+) #c8cdd0 -- For borders
+-   Tertiary: ![](https://via.placeholder.com/15/2a37c0/000000?text=+) #2a37c0 -- For hovers
+-   Background: ![](https://via.placeholder.com/15/ffffff98/000000?text=+) #ffffff98
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

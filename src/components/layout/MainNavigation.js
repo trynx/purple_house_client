@@ -2,7 +2,6 @@ import { Tabs } from "antd";
 import { useHistory } from "react-router-dom";
 import { useAuthCtx } from "../../store/auth-context";
 import RegularButton from "../../ui/button/RegularButton";
-import classes from "./MainNavigation.module.css";
 const { TabPane } = Tabs;
 
 export default function MainNavigation() {
@@ -20,12 +19,11 @@ export default function MainNavigation() {
     return (
         <Tabs
             defaultActiveKey='1'
-            centered
-            className={classes}
             tabBarStyle={{ color: "#6659e0" }}
             style={{
-                paddingTop: "2rem",
+                paddingTop: "1rem",
                 marginRight: "1rem",
+                marginLeft: "1.3rem",
             }}
             tabBarExtraContent={
                 <RegularButton onClick={authCtx.logout}>Log Out</RegularButton>

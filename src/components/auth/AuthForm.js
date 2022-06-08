@@ -34,7 +34,7 @@ const FormInput = styled.div`
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
 
     &:hover {
-        color: #848dea;
+        color: #2a37c0;
     }
 `;
 
@@ -118,7 +118,7 @@ export default function AuthForm() {
 
                     // TODO: Maybe save all the routers in a the context
                     // manager, to avoid typos and use intellisense
-                    history.replace("/jobs");
+                    history.replace("/candidates");
                 });
             });
         } else {

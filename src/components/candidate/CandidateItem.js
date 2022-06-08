@@ -1,6 +1,27 @@
+import { Divider } from "antd";
 import axios from "axios";
+import styled from "styled-components";
 import { useAuthCtx } from "../../store/auth-context";
+import CandidatePosition from "./CandidatePosition";
+import CandidateProfile from "./CandidateProfile";
+import CandidateResume from "./CandidateResume";
 
+const CardStyle = styled.li`
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border-radius: 4px;
+    border-width: 2px;
+    border-color: #c8cdd0;
+    border-style: solid;
+    padding: 0.4rem 1rem;
+    margin: 0 0 1rem;
+`;
+
+const dividerStyle = {
+    height: "3.5rem",
+    borderLeft: "2.5px solid rgba(0, 0, 0, 0.25)",
+};
 export default function CandidateItem({ candidateData }) {
     const { name, currentJob, position, resumeKey } = candidateData;
     const authCtx = useAuthCtx();
@@ -68,33 +89,13 @@ export default function CandidateItem({ candidateData }) {
         link.click();
     };
 
-    // TODO: useEffect for the search by candidate name, after x ms
-    /* 
-    useEffect(() => {
-        // Debounce
-        const timerId = setTimeout(500, setCandaitaeName());
-
-        return () => {
-            clearTimeout(timerId);
-        }
-    })
-     */
     return (
-        <li className='card'>
-            {/* TODO: Data profile component */}
-            <div>
-                <p>Name: {name}</p>
-                <p>Current Job: {currentJob}</p>
-            </div>
-            <div>
-                <p>Candidate position: {position.position}</p>
-            </div>
-            {/* TODO */}
-            <div className='actions'>
-                <button className='btn' onClick={handleClick}>
-                    Download resume
-                </button>
-            </div>
-        </li>
+        <CardStyle>
+            <CandidateProfile name={name} currentJob={currentJob} />
+            <Divider type='vertical' style={dividerStyle} />
+            <CandidatePosition>{position.position}</CandidatePosition>
+            <Divider type='vertical' style={dividerStyle} />
+            <CandidateResume handleClick={handleClick} />
+        </CardStyle>
     );
 }

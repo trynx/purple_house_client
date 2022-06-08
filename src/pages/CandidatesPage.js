@@ -1,5 +1,7 @@
+import { Spin } from "antd";
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
+import styled from "styled-components";
 import CandidateList from "../components/candidate/CandidateList";
 import CreateCandidateButton from "../components/candidate/CreateCandidateButton";
 import SearchCandidate from "../components/candidate/SearchCandidate";
@@ -7,7 +9,25 @@ import { useAuthCtx } from "../store/auth-context";
 import { useJobCtx } from "../store/job-context";
 import SelectPosition from "../ui/select/SelectPosition";
 
-export default function AllCandidates() {
+const PageStyle = styled.div`
+    margin: 1rem;
+`;
+
+const LoadingStyle = styled.div`
+    margin: 20px 0;
+    margin-bottom: 20px;
+    padding: 30px 50px;
+    text-align: center;
+    border-radius: 4px;
+`;
+
+const ListStyle = styled.div`
+    height: 70vh;
+    overflow-y: auto;
+    margin-bottom: 3px;
+`;
+
+export default function CandidatesPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [candidates, setCandidates] = useState([]);
     const [candidateSearch, setCandidateSearch] = useState("");
@@ -128,8 +148,15 @@ export default function AllCandidates() {
     }, [getCandidates]);
 
     if (isLoading) {
-        // TODO: Can add spinner
-        return <p>Loading candidates...</p>;
+        return (
+            <LoadingStyle>
+                <Spin
+                    tip='Loading...'
+                    size='large'
+                    style={{ color: "#6659e0" }}
+                />
+            </LoadingStyle>
+        );
     }
 
     const getVisibleCandidates = () => {
@@ -160,8 +187,8 @@ export default function AllCandidates() {
     const visibleCandidates = getVisibleCandidates();
 
     return (
-        <>
-            <div>
+        <PageStyle>
+            <div style={{ flex: 1 }}>
                 <SearchCandidate filterCandidates={setCandidateSearch} />
                 <SelectPosition
                     positions={jobCtx.positions}
@@ -169,14 +196,15 @@ export default function AllCandidates() {
                     title='Filter By Position'
                 />
             </div>
-            {/* TODO: Should be a floating button */}
+            <ListStyle>
+                {candidates.length === 0 && (
+                    <p>There are not candidates yet, add a candidate</p>
+                )}
+                {candidates.length > 0 && (
+                    <CandidateList allCandidates={visibleCandidates} />
+                )}
+            </ListStyle>
             <CreateCandidateButton onCreateCandidate={onCreateCandidate} />
-            {candidates.length === 0 && (
-                <p>There are not candidates yet, add a candidate</p>
-            )}
-            {candidates.length > 0 && (
-                <CandidateList allCandidates={visibleCandidates} />
-            )}
-        </>
+        </PageStyle>
     );
 }

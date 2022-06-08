@@ -1,20 +1,5 @@
 import styled from "styled-components";
 
-// .button {
-//     font: inherit;
-//     padding: 0.5rem 1.5rem;
-//     cursor: pointer;
-//     border-radius: 4px;
-//     background-color: #c5156d;
-//     color: white;
-//     border: 1px solid #c5156d;
-//     margin: 0 1rem;
-// }
-
-// .button:hover {
-//     background-color: #9c1458;
-//     border-color: #9c1458;
-// }
 const RegularButton = styled.button`
     // width: 0rem;
     font: inherit;
@@ -38,9 +23,5 @@ const RegularButton = styled.button`
         box-shadow: 0 0 8px #2a37c0ad;
     }
 `;
-
-// export default function RegularButton({ title, onClick }) {
-//     return <button onClick={onClick}>{title}</button>;
-// }
 
 export default RegularButton;
