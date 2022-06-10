@@ -6,8 +6,8 @@ const RegularButton = styled.button`
     padding: 0.3rem 0.7rem;
     border: 2.5px solid rgba(102, 89, 224, 0.5);
     border-radius: 4px;
-    color: #6659e0;
-    background: #ffffff98;
+    background: ${(props) => (props.isFilled ? "#6659e0" : "#ffffff98")};
+    color: ${(props) => (props.isFilled ? "white" : "#6659e0")};
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.26);
 
     &:focus {
@@ -17,10 +17,10 @@ const RegularButton = styled.button`
     &:hover,
     &:active {
         cursor: pointer;
-        background: #ffffffe3;
-        color: #2a37c0;
-        /* border-color: rgb(102, 89, 224); */
-        box-shadow: 0 0 8px #2a37c0ad;
+        background: ${(props) => (props.isFilled ? "#4130d9" : "#ffffffe3")};
+        color: ${(props) => (props.isFilled ? "white" : "#2a37c0")};
+        box-shadow: ${(props) =>
+            "0 0 8px " + (props.isFilled ? "#4130d9" : "#2a37c0ad")};
     }
 `;
 

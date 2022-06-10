@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { useAuthCtx } from "../../store/auth-context";
 import RegularButton from "../../ui/button/RegularButton";
+import FormInput from "../../ui/form/FormInput";
 
 const FormControl = styled.div`
     margin: 3rem auto;
@@ -18,16 +19,6 @@ const FormControl = styled.div`
 
     h1 {
         color: #6659e0;
-    }
-`;
-
-const FormInput = styled.div`
-    margin-bottom: 3rem;
-    width: 15rem;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-
-    &:hover {
-        color: #2a37c0;
     }
 `;
 

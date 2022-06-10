@@ -22,7 +22,8 @@ const LoadingStyle = styled.div`
 `;
 
 const ListStyle = styled.div`
-    height: 70vh;
+    // TODO: Improve responsiveness
+    height: 50vh;
     overflow-y: auto;
     margin-bottom: 3px;
 `;

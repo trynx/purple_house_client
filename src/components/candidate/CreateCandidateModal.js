@@ -1,13 +1,26 @@
+import { Input, message } from "antd";
 import { useState } from "react";
+import styled from "styled-components";
 import { useJobCtx } from "../../store/job-context";
+import RegularButton from "../../ui/button/RegularButton";
+import FormInput from "../../ui/form/FormInput";
 import Modal from "../../ui/modal/Modal";
 import SelectPosition from "../../ui/select/SelectPosition";
-import classes from "./CreateCandidateModal.module.css";
+import CandidateUploadResume from "./CandidateUploadResume";
+
+const FormStyle = styled.form`
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`;
 
 export default function CreateCandidateModal({ onClose, onCreateCandidate }) {
     const [isCreatingCandidate, setIsCreatingCandidate] = useState(false);
-    const [file, setFile] = useState();
+    // const [file, setFile] = useState();
     const [currPositionId, setCurrPositionId] = useState();
+    const [fileList, setFileList] = useState([]);
+
     const jobCtx = useJobCtx();
 
     const createHandler = async (e) => {
@@ -16,12 +29,12 @@ export default function CreateCandidateModal({ onClose, onCreateCandidate }) {
         const form = e.target;
 
         if (!currPositionId) {
-            alert("Please select a position");
+            message.error("Please select a position");
             return;
         }
 
-        if (!file) {
-            alert("Please upload a resume");
+        if (fileList.length === 0) {
+            message.error("Please upload a resume");
             return;
         }
 
@@ -34,7 +47,7 @@ export default function CreateCandidateModal({ onClose, onCreateCandidate }) {
         candidateData.append("phone", form["phone"].value);
         candidateData.append("currentJob", form["currentJob"].value);
         candidateData.append("position", currPositionId);
-        candidateData.append("file", file);
+        candidateData.append("file", fileList[0].originFileObj);
 
         setIsCreatingCandidate(true);
         const isSuccess = await onCreateCandidate(candidateData);
@@ -53,50 +66,43 @@ export default function CreateCandidateModal({ onClose, onCreateCandidate }) {
         onClose();
     };
 
-    const saveFile = (e) => {
-        setFile(e.target.files[0]);
-    };
+    // const saveFile = (e) => {
+    //     setFile(e.target.files[0]);
+    // };
+
+    const formInputStyle = { width: "200px", marginBottom: "2rem" };
 
     return (
         <Modal>
-            <form className={classes.form} onSubmit={createHandler}>
-                <h2>Add Candidate</h2>
-                <div className={classes.control}>
-                    <label htmlFor="name">Name</label>
-                    <input
-                        type="text"
-                        id="name"
-                        required
-                        placeholder="Name"
-                    ></input>
-                </div>
-                <div className={classes.control}>
-                    <label htmlFor="email">Email</label>
-                    <input
+            <FormStyle onSubmit={createHandler}>
+                <h2 style={{ color: "#6659e0" }}>Add Candidate</h2>
+                <FormInput style={formInputStyle}>
+                    <Input id="name" type="text" required placeholder="Name" />
+                </FormInput>
+                <FormInput style={formInputStyle}>
+                    <Input
                         type="email"
                         id="email"
                         required
                         placeholder="Email"
-                    ></input>
-                </div>
-                <div className={classes.control}>
-                    <label htmlFor="phone">Phone</label>
-                    <input
+                    />
+                </FormInput>
+                <FormInput style={formInputStyle}>
+                    <Input
                         type="number"
                         id="phone"
                         required
                         placeholder="Phone"
-                    ></input>
-                </div>
-                <div className={classes.control}>
-                    <label htmlFor="currentJob">Current Job</label>
-                    <input
+                    />
+                </FormInput>
+                <FormInput style={formInputStyle}>
+                    <Input
                         type="text"
                         id="currentJob"
                         required
                         placeholder="Current Job"
-                    ></input>
-                </div>
+                    />
+                </FormInput>
                 <SelectPosition
                     positions={jobCtx.jobs.map((job) => {
                         return {
@@ -108,36 +114,37 @@ export default function CreateCandidateModal({ onClose, onCreateCandidate }) {
                     setCurrPosition={setCurrPositionId}
                     title="Select Position"
                 />
-                <div className={classes.control}>
-                    {/* https://ant.design/components/space/ */}
-                    <label htmlFor="resume">Upload Resume</label>
-                    <input
+                <CandidateUploadResume
+                    fileList={fileList}
+                    setFileList={setFileList}
+                    style={{ marginTop: "2rem", ...formInputStyle }}
+                ></CandidateUploadResume>
+                {/* <FormInput style={{ marginTop: "2rem", ...formInputStyle }}>
+                    <Input
                         type="file"
                         id="resume"
                         onChange={saveFile}
                         placeholder="Resume"
                     />
-                </div>
+                </FormInput> */}
                 <div>
-                    <button
+                    <RegularButton
                         type="button"
-                        className="btn btn--alt"
                         onClick={cancelHandler}
+                        style={{ marginRight: "3rem" }}
                     >
                         Cancel
-                    </button>
+                    </RegularButton>
                     {/* TODO: Add loading spinner */}
-                    <button
+                    <RegularButton
                         type="submit"
-                        className={`btn ${
-                            isCreatingCandidate ? "btn--disable" : ""
-                        }`}
                         disabled={isCreatingCandidate}
+                        isFilled={true}
                     >
                         Create
-                    </button>
+                    </RegularButton>
                 </div>
-            </form>
+            </FormStyle>
         </Modal>
     );
 }
