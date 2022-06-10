@@ -151,8 +151,8 @@ export default function CandidatesPage() {
         return (
             <LoadingStyle>
                 <Spin
-                    tip='Loading...'
-                    size='large'
+                    tip="Loading..."
+                    size="large"
                     style={{ color: "#6659e0" }}
                 />
             </LoadingStyle>
@@ -193,7 +193,7 @@ export default function CandidatesPage() {
                 <SelectPosition
                     positions={jobCtx.positions}
                     setCurrPosition={jobCtx.setCurrPosition}
-                    title='Filter By Position'
+                    title="Filter By Position"
                 />
             </div>
             <ListStyle>

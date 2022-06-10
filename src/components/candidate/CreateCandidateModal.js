@@ -62,36 +62,40 @@ export default function CreateCandidateModal({ onClose, onCreateCandidate }) {
             <form className={classes.form} onSubmit={createHandler}>
                 <h2>Add Candidate</h2>
                 <div className={classes.control}>
-                    <label htmlFor='name'>Name</label>
+                    <label htmlFor="name">Name</label>
                     <input
-                        type='text'
-                        id='name'
+                        type="text"
+                        id="name"
                         required
-                        placeholder='Name'></input>
+                        placeholder="Name"
+                    ></input>
                 </div>
                 <div className={classes.control}>
-                    <label htmlFor='email'>Email</label>
+                    <label htmlFor="email">Email</label>
                     <input
-                        type='email'
-                        id='email'
+                        type="email"
+                        id="email"
                         required
-                        placeholder='Email'></input>
+                        placeholder="Email"
+                    ></input>
                 </div>
                 <div className={classes.control}>
-                    <label htmlFor='phone'>Phone</label>
+                    <label htmlFor="phone">Phone</label>
                     <input
-                        type='number'
-                        id='phone'
+                        type="number"
+                        id="phone"
                         required
-                        placeholder='Phone'></input>
+                        placeholder="Phone"
+                    ></input>
                 </div>
                 <div className={classes.control}>
-                    <label htmlFor='currentJob'>Current Job</label>
+                    <label htmlFor="currentJob">Current Job</label>
                     <input
-                        type='text'
-                        id='currentJob'
+                        type="text"
+                        id="currentJob"
                         required
-                        placeholder='Current Job'></input>
+                        placeholder="Current Job"
+                    ></input>
                 </div>
                 <SelectPosition
                     positions={jobCtx.jobs.map((job) => {
@@ -102,32 +106,34 @@ export default function CreateCandidateModal({ onClose, onCreateCandidate }) {
                         };
                     })}
                     setCurrPosition={setCurrPositionId}
-                    title='Select Position'
+                    title="Select Position"
                 />
                 <div className={classes.control}>
                     {/* https://ant.design/components/space/ */}
-                    <label htmlFor='resume'>Upload Resume</label>
+                    <label htmlFor="resume">Upload Resume</label>
                     <input
-                        type='file'
-                        id='resume'
+                        type="file"
+                        id="resume"
                         onChange={saveFile}
-                        placeholder='Resume'
+                        placeholder="Resume"
                     />
                 </div>
                 <div>
                     <button
-                        type='button'
-                        className='btn btn--alt'
-                        onClick={cancelHandler}>
+                        type="button"
+                        className="btn btn--alt"
+                        onClick={cancelHandler}
+                    >
                         Cancel
                     </button>
                     {/* TODO: Add loading spinner */}
                     <button
-                        type='submit'
+                        type="submit"
                         className={`btn ${
                             isCreatingCandidate ? "btn--disable" : ""
                         }`}
-                        disabled={isCreatingCandidate}>
+                        disabled={isCreatingCandidate}
+                    >
                         Create
                     </button>
                 </div>

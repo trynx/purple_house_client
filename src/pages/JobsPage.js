@@ -16,7 +16,7 @@ export default function AllJobs() {
             <SelectPosition
                 positions={jobCtx.positions}
                 setCurrPosition={jobCtx.setCurrPosition}
-                title='Filter By Job'
+                title="Filter By Job"
             />
 
             {jobCtx.jobs.length === 0 && (

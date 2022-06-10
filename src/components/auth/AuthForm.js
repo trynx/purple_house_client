@@ -7,17 +7,10 @@ import { useAuthCtx } from "../../store/auth-context";
 import RegularButton from "../../ui/button/RegularButton";
 
 const FormControl = styled.div`
-    // display: flex;
-    // align-items: center;
-    // height: 100vh;
-
     margin: 3rem auto;
     width: 95%;
     max-width: 25rem;
     border-radius: 6px;
-    /* background-color: #77002e; */
-    /* box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2); */
-    /* padding: 1rem; */
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -101,17 +94,18 @@ export default function AuthForm() {
 
                 if (!res.ok) {
                     return res.json().then((data) => {
-                        // TODO: Can add better error visual
-                        let errorMsg = data?.message
-                            ? data.message
-                            : "Issue with register";
+                        let errorMsg = "Issue with login";
 
-                        // FIXME: Small bug that can still see 'Loading..' because the alert stop the React update loop
-                        alert(errorMsg);
+                        if (data) {
+                            errorMsg = data.userNotFound
+                                ? "User doesn't exist. Please register."
+                                : data.message;
+                        }
+
+                        message.info(errorMsg);
                     });
                 }
 
-                // TODO: On success change to 'Jobs' page and save token + refresh token
                 return res.json().then((data) => {
                     const { accessToken, refreshToken } = data;
                     authCtx.login(accessToken, refreshToken);
@@ -142,6 +136,7 @@ export default function AuthForm() {
                     return;
                 }
 
+                message.info("Done registering, welcome :)");
                 setIsLogin(true);
             });
         }
@@ -153,32 +148,33 @@ export default function AuthForm() {
             <form onSubmit={submitHandler}>
                 <FormInput>
                     <Input
-                        id='email'
-                        type='email'
+                        id="email"
+                        type="email"
                         required
-                        autoComplete='username'
-                        placeholder='Email'
+                        autoComplete="username"
+                        placeholder="Email"
                     />
                 </FormInput>
                 <FormInput>
                     <Input
-                        id='password'
-                        type='password'
+                        id="password"
+                        type="password"
                         required
-                        autoComplete='current-password'
-                        minLength='8'
-                        placeholder='Password'
+                        autoComplete="current-password"
+                        minLength="8"
+                        placeholder="Password"
                     />
                 </FormInput>
                 <FormActions>
-                    <RegularButton type='submit'>
+                    <RegularButton type="submit">
                         {!isLoading && (isLogin ? "Login" : "Create Account")}
                         {isLoading && <SyncOutlined spin />}
                     </RegularButton>
                     <button
-                        type='button'
-                        className='toggle'
-                        onClick={switchAuthFormHandler}>
+                        type="button"
+                        className="toggle"
+                        onClick={switchAuthFormHandler}
+                    >
                         {isLogin
                             ? "Not register? Click here"
                             : "Login with existing account"}
