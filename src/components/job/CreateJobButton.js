@@ -1,9 +1,11 @@
 import { useState } from "react";
+import CreateButton from "../../ui/button/CreateButton";
 import Backdrop from "../../ui/modal/Backdrop";
 import CreateJobModal from "./CreateJobModal";
 
 export default function CreateJobButton({ onCreateJob }) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
+
     const handleClick = (event) => {
         setModalIsOpen(true);
     };
@@ -13,14 +15,12 @@ export default function CreateJobButton({ onCreateJob }) {
     };
 
     return (
-        <div>
-            <button className='btn' onClick={handleClick}>
-                +
-            </button>
+        <div style={{ textAlign: "right" }}>
+            <CreateButton onClick={handleClick}>+</CreateButton>
             {modalIsOpen && (
                 <CreateJobModal
                     onClose={closeModalHandler}
-                    onCreateJob={onCreateJob}
+                    onCreateCandidate={onCreateJob}
                 />
             )}
             {modalIsOpen && <Backdrop onCancel={closeModalHandler} />}

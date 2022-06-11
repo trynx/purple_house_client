@@ -1,23 +1,24 @@
 import { useState } from "react";
-import styled from "styled-components";
+import CreateButton from "../../ui/button/CreateButton";
 import Backdrop from "../../ui/modal/Backdrop";
 import CreateCandidateModal from "./CreateCandidateModal";
 
-const ButtonStyle = styled.button`
-    cursor: pointer;
-    font-size: 2em;
-    padding: 0.45rem 1.4rem;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    background-color: rgba(102, 89, 224, 0.5);
-    color: white;
-    border: 2px solid #6659e0;
+// const ButtonStyle = styled.button`
+//     cursor: pointer;
+//     font-size: 2em;
+//     padding: 0.45rem 1.4rem;
+//     aspect-ratio: 1;
+//     border-radius: 50%;
+//     background-color: rgba(102, 89, 224, 0.5);
+//     color: white;
+//     border: 2px solid #6659e0;
 
-    &:hover {
-        background-color: #2a37c0;
-        border-color: #2a37c0;
-    }
-`;
+//     &:hover {
+//         background-color: #2a37c0;
+//         border-color: #2a37c0;
+//     }
+// `;
+
 export default function CreateCandidateButton({ onCreateCandidate }) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const handleClick = (event) => {
@@ -30,7 +31,7 @@ export default function CreateCandidateButton({ onCreateCandidate }) {
 
     return (
         <div style={{ textAlign: "right" }}>
-            <ButtonStyle onClick={handleClick}>+</ButtonStyle>
+            <CreateButton onClick={handleClick}>+</CreateButton>
             {modalIsOpen && (
                 <CreateCandidateModal
                     onClose={closeModalHandler}

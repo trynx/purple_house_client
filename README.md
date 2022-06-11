@@ -15,6 +15,15 @@ This is an app which uses: React, Routers and axios
 -   Tertiary: ![](https://via.placeholder.com/15/2a37c0/000000?text=+) #2a37c0 -- For hovers
 -   Background: ![](https://via.placeholder.com/15/ffffff98/000000?text=+) #ffffff98
 
+# Debugging
+
+## Debugging functions from devtools
+
+-   createJobs(number) - Will create new jobs depend on the number
+-   TODO: cleanJobs() - Will delete all jobs
+-   TODO: createCandidents(number) - Will create new candidates depend on the number
+-   TODO: cleanCandidents() - Will delete all candidates
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

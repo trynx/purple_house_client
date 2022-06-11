@@ -6,7 +6,7 @@ import CandidatePosition from "./CandidatePosition";
 import CandidateProfile from "./CandidateProfile";
 import CandidateResume from "./CandidateResume";
 
-const CardStyle = styled.li`
+const CardStyle = styled.div`
     display: flex;
     align-items: center;
     background-color: white;
@@ -92,9 +92,9 @@ export default function CandidateItem({ candidateData }) {
     return (
         <CardStyle>
             <CandidateProfile name={name} currentJob={currentJob} />
-            <Divider type='vertical' style={dividerStyle} />
+            <Divider type="vertical" style={dividerStyle} />
             <CandidatePosition>{position.position}</CandidatePosition>
-            <Divider type='vertical' style={dividerStyle} />
+            <Divider type="vertical" style={dividerStyle} />
             <CandidateResume handleClick={handleClick} />
         </CardStyle>
     );

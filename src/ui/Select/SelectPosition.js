@@ -18,7 +18,12 @@ const Selected = styled.div`
     }
 `;
 
-export default function SelectPosition({ positions, setCurrPosition, title }) {
+export default function SelectPosition({
+    positions,
+    setCurrPosition,
+    title,
+    styled,
+}) {
     const [isAllPositionSelected, setIsAllPositionSelected] = useState(false);
 
     const handleChange = (e) => {
@@ -35,7 +40,7 @@ export default function SelectPosition({ positions, setCurrPosition, title }) {
     }, [setCurrPosition]);
 
     return (
-        <Space wrap>
+        <Space wrap style={styled}>
             <Selected>
                 <Select onChange={handleChange} placeholder={title}>
                     {/*Only show the 'All Positions' option at the begin state

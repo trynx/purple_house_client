@@ -1,4 +1,3 @@
-import { Spin } from "antd";
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
@@ -7,18 +6,11 @@ import CreateCandidateButton from "../components/candidate/CreateCandidateButton
 import SearchCandidate from "../components/candidate/SearchCandidate";
 import { useAuthCtx } from "../store/auth-context";
 import { useJobCtx } from "../store/job-context";
+import LoadingSpinner from "../ui/LoadingSpinner";
 import SelectPosition from "../ui/select/SelectPosition";
 
 const PageStyle = styled.div`
     margin: 1rem;
-`;
-
-const LoadingStyle = styled.div`
-    margin: 20px 0;
-    margin-bottom: 20px;
-    padding: 30px 50px;
-    text-align: center;
-    border-radius: 4px;
 `;
 
 const ListStyle = styled.div`
@@ -34,6 +26,10 @@ export default function CandidatesPage() {
     const [candidateSearch, setCandidateSearch] = useState("");
     const authCtx = useAuthCtx();
     const jobCtx = useJobCtx();
+
+    useEffect(() => {
+        console.log("In Candidates");
+    }, []);
 
     const getCandidates = useCallback(async () => {
         setIsLoading(true);
@@ -149,15 +145,7 @@ export default function CandidatesPage() {
     }, [getCandidates]);
 
     if (isLoading) {
-        return (
-            <LoadingStyle>
-                <Spin
-                    tip="Loading..."
-                    size="large"
-                    style={{ color: "#6659e0" }}
-                />
-            </LoadingStyle>
-        );
+        return <LoadingSpinner />;
     }
 
     const getVisibleCandidates = () => {

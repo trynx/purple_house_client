@@ -6,7 +6,7 @@ const JobContext = React.createContext({
     jobs: [],
     positions: [],
     currPosition: null,
-    onCreateJob: (jobData) => {},
+    onCreateJob: async (jobData) => {},
     getJobs: () => {},
     setCurrPosition: () => {},
 });
