@@ -1,3 +1,4 @@
+import { SyncOutlined } from "@ant-design/icons";
 import { Input, message } from "antd";
 import { useState } from "react";
 import styled from "styled-components";
@@ -5,6 +6,7 @@ import { useJobCtx } from "../../store/job-context";
 import RegularButton from "../../ui/button/RegularButton";
 import FormInput from "../../ui/form/FormInput";
 import Modal from "../../ui/modal/Modal";
+import ModalTitle from "../../ui/modal/ModalTitle";
 import SelectPosition from "../../ui/select/SelectPosition";
 import CandidateUploadResume from "./CandidateUploadResume";
 
@@ -14,6 +16,8 @@ const FormStyle = styled.form`
     flex-direction: column;
     align-items: center;
 `;
+
+const formInputStyle = { width: "200px", marginBottom: "2rem" };
 
 export default function CreateCandidateModal({ onClose, onCreateCandidate }) {
     const [isCreatingCandidate, setIsCreatingCandidate] = useState(false);
@@ -66,16 +70,10 @@ export default function CreateCandidateModal({ onClose, onCreateCandidate }) {
         onClose();
     };
 
-    // const saveFile = (e) => {
-    //     setFile(e.target.files[0]);
-    // };
-
-    const formInputStyle = { width: "200px", marginBottom: "2rem" };
-
     return (
         <Modal>
             <FormStyle onSubmit={createHandler}>
-                <h2 style={{ color: "#6659e0" }}>Add Candidate</h2>
+                <ModalTitle>Add Candidate</ModalTitle>
                 <FormInput style={formInputStyle}>
                     <Input id="name" type="text" required placeholder="Name" />
                 </FormInput>
@@ -119,14 +117,6 @@ export default function CreateCandidateModal({ onClose, onCreateCandidate }) {
                     setFileList={setFileList}
                     style={{ marginTop: "2rem", ...formInputStyle }}
                 ></CandidateUploadResume>
-                {/* <FormInput style={{ marginTop: "2rem", ...formInputStyle }}>
-                    <Input
-                        type="file"
-                        id="resume"
-                        onChange={saveFile}
-                        placeholder="Resume"
-                    />
-                </FormInput> */}
                 <div>
                     <RegularButton
                         type="button"
@@ -135,13 +125,13 @@ export default function CreateCandidateModal({ onClose, onCreateCandidate }) {
                     >
                         Cancel
                     </RegularButton>
-                    {/* TODO: Add loading spinner */}
                     <RegularButton
                         type="submit"
                         disabled={isCreatingCandidate}
                         isFilled={true}
                     >
-                        Create
+                        {!isCreatingCandidate && "Create"}
+                        {isCreatingCandidate && <SyncOutlined spin />}
                     </RegularButton>
                 </div>
             </FormStyle>

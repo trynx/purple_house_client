@@ -17,22 +17,24 @@ export default function JobsPage() {
     // For testing filling a lot of jobs
     useEffect(() => {
         console.log("In Jobs");
-        window.createJobs = async (numJobs) => {
-            Array(numJobs)
-                .fill(0)
-                .forEach(() => {
-                    // To avoid duplicate positions + offices
-                    const randomExtra = crypto.randomUUID();
-                    // Get each form value by it'  s id
-                    const jobData = {
-                        position: "position " + randomExtra,
-                        department: "department " + randomExtra,
-                        office: "office " + randomExtra,
-                    };
+        if (window.debug) {
+            window.debug.createJobs = async (numJobs) => {
+                Array(numJobs)
+                    .fill(0)
+                    .forEach(() => {
+                        // To avoid duplicate positions + offices
+                        const randomExtra = crypto.randomUUID();
+                        // Get each form value by it'  s id
+                        const jobData = {
+                            position: "position " + randomExtra,
+                            department: "department " + randomExtra,
+                            office: "office " + randomExtra,
+                        };
 
-                    jobCtx.onCreateJob(jobData);
-                });
-        };
+                        jobCtx.onCreateJob(jobData);
+                    });
+            };
+        }
     }, [jobCtx]);
 
     if (jobCtx.isLoading) {
