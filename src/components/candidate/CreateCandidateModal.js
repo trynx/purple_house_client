@@ -4,7 +4,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { useJobCtx } from "../../store/job-context";
 import RegularButton from "../../ui/button/RegularButton";
-import FormInput from "../../ui/form/FormInput";
+import ModalFormInput from "../../ui/form/ModalFormInput";
 import Modal from "../../ui/modal/Modal";
 import ModalTitle from "../../ui/modal/ModalTitle";
 import SelectPosition from "../../ui/select/SelectPosition";
@@ -17,11 +17,8 @@ const FormStyle = styled.form`
     align-items: center;
 `;
 
-const formInputStyle = { width: "200px", marginBottom: "2rem" };
-
 export default function CreateCandidateModal({ onClose, onCreateCandidate }) {
     const [isCreatingCandidate, setIsCreatingCandidate] = useState(false);
-    // const [file, setFile] = useState();
     const [currPositionId, setCurrPositionId] = useState();
     const [fileList, setFileList] = useState([]);
 
@@ -42,8 +39,7 @@ export default function CreateCandidateModal({ onClose, onCreateCandidate }) {
             return;
         }
 
-        // const positionId = jobCtx.jobs();
-        let candidateData = new FormData();
+        const candidateData = new FormData();
 
         // Get each form value by it's id
         candidateData.append("name", form["name"].value);
@@ -74,33 +70,33 @@ export default function CreateCandidateModal({ onClose, onCreateCandidate }) {
         <Modal>
             <FormStyle onSubmit={createHandler}>
                 <ModalTitle>Add Candidate</ModalTitle>
-                <FormInput style={formInputStyle}>
+                <ModalFormInput>
                     <Input id="name" type="text" required placeholder="Name" />
-                </FormInput>
-                <FormInput style={formInputStyle}>
+                </ModalFormInput>
+                <ModalFormInput>
                     <Input
                         type="email"
                         id="email"
                         required
                         placeholder="Email"
                     />
-                </FormInput>
-                <FormInput style={formInputStyle}>
+                </ModalFormInput>
+                <ModalFormInput>
                     <Input
                         type="number"
                         id="phone"
                         required
                         placeholder="Phone"
                     />
-                </FormInput>
-                <FormInput style={formInputStyle}>
+                </ModalFormInput>
+                <ModalFormInput>
                     <Input
                         type="text"
                         id="currentJob"
                         required
                         placeholder="Current Job"
                     />
-                </FormInput>
+                </ModalFormInput>
                 <SelectPosition
                     positions={jobCtx.jobs.map((job) => {
                         return {
@@ -115,7 +111,11 @@ export default function CreateCandidateModal({ onClose, onCreateCandidate }) {
                 <CandidateUploadResume
                     fileList={fileList}
                     setFileList={setFileList}
-                    style={{ marginTop: "2rem", ...formInputStyle }}
+                    style={{
+                        marginTop: "2rem",
+                        width: "200px",
+                        marginBottom: "2rem",
+                    }}
                 ></CandidateUploadResume>
                 <div>
                     <RegularButton

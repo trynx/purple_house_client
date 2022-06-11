@@ -1,16 +1,17 @@
 import { Input } from "antd";
 import { useEffect, useState } from "react";
+import styled from "styled-components";
+
+const SearchInput = styled(Input)`
+    border-color: #c8cdd0;
+    border-width: 2px;
+    width: 200px;
+    margin: 0 40px 20px 0;
+    border-radius: 4px;
+`;
 
 export default function SearchCandidate({ filterCandidates }) {
     const [searchValue, setSearchValue] = useState("");
-
-    const selectStyle = {
-        borderColor: "#c8cdd0",
-        borderWidth: "2px",
-        width: "200px",
-        margin: "0 40px 20px 0",
-        borderRadius: "4px",
-    };
 
     // Debounce the search input
     useEffect(() => {
@@ -28,10 +29,9 @@ export default function SearchCandidate({ filterCandidates }) {
     };
 
     return (
-        <Input
+        <SearchInput
             allowClear
-            style={selectStyle}
-            placeholder='Search By Name'
+            placeholder="Search By Name"
             onChange={searchHandler}
         />
     );

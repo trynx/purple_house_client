@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const InputStyle = styled.div`
+const FormInput = styled.div`
     margin-bottom: 3rem;
     width: 15rem;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
@@ -10,6 +10,4 @@ const InputStyle = styled.div`
     }
 `;
 
-export default function FormInput({ children, style }) {
-    return <InputStyle style={style}>{children}</InputStyle>;
-}
+export default FormInput;

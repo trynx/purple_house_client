@@ -16,6 +16,4 @@ const ButtonStyle = styled.button`
     }
 `;
 
-export default function CreateButton({ onClick, children }) {
-    return <ButtonStyle onClick={onClick}>{children}</ButtonStyle>;
-}
+export default ButtonStyle;

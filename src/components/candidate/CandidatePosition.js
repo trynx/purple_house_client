@@ -6,6 +6,4 @@ const CandidatePositionStyle = styled.div`
     text-align: center;
 `;
 
-export default function CandidatePosition({ children }) {
-    return <CandidatePositionStyle>{children}</CandidatePositionStyle>;
-}
+export default CandidatePositionStyle;

@@ -7,6 +7,7 @@ const CandidateProfileStyle = styled.div`
     align-items: center;
     width: 13rem;
 `;
+
 export default function CandidateProfile({ name, currentJob }) {
     return (
         <CandidateProfileStyle>

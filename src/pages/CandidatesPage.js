@@ -2,16 +2,13 @@ import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import CandidateList from "../components/candidate/CandidateList";
-import CreateCandidateButton from "../components/candidate/CreateCandidateButton";
 import SearchCandidate from "../components/candidate/SearchCandidate";
+import SharedCreateButton from "../components/shared/SharedCreateButton";
 import { useAuthCtx } from "../store/auth-context";
 import { useJobCtx } from "../store/job-context";
 import LoadingSpinner from "../ui/LoadingSpinner";
+import Page from "../ui/page/Page";
 import SelectPosition from "../ui/select/SelectPosition";
-
-const PageStyle = styled.div`
-    margin: 1rem;
-`;
 
 const ListStyle = styled.div`
     // TODO: Improve responsiveness
@@ -176,7 +173,7 @@ export default function CandidatesPage() {
     const visibleCandidates = getVisibleCandidates();
 
     return (
-        <PageStyle>
+        <Page>
             <div style={{ flex: 1 }}>
                 <SearchCandidate filterCandidates={setCandidateSearch} />
                 <SelectPosition
@@ -193,7 +190,10 @@ export default function CandidatesPage() {
                     <CandidateList allCandidates={visibleCandidates} />
                 )}
             </ListStyle>
-            <CreateCandidateButton onCreateCandidate={onCreateCandidate} />
-        </PageStyle>
+            <SharedCreateButton
+                onCreate={onCreateCandidate}
+                modalType={"candidate"}
+            />
+        </Page>
     );
 }

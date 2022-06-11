@@ -101,5 +101,3 @@ export const useAuthCtx = () => {
 
     return context;
 };
-
-// export default AuthContext;

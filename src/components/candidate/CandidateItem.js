@@ -22,6 +22,7 @@ const dividerStyle = {
     height: "3.5rem",
     borderLeft: "2.5px solid rgba(0, 0, 0, 0.25)",
 };
+
 export default function CandidateItem({ candidateData }) {
     const { name, currentJob, position, resumeKey } = candidateData;
     const authCtx = useAuthCtx();

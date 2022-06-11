@@ -1,22 +1,17 @@
 import { useEffect } from "react";
-import styled from "styled-components";
-import CreateJobButton from "../components/job/CreateJobButton";
 import JobTable from "../components/job/JobTable";
+import SharedCreateButton from "../components/shared/SharedCreateButton";
 import { useJobCtx } from "../store/job-context";
-import LoadingSpinner from "../ui/LoadingSpinner";
+import Page from "../ui/page/Page";
 import SelectPosition from "../ui/select/SelectPosition";
-
-const PageStyle = styled.div`
-    padding-left: 3rem;
-    padding-right: 1rem;
-`;
 
 export default function JobsPage() {
     const jobCtx = useJobCtx();
 
-    // For testing filling a lot of jobs
     useEffect(() => {
         console.log("In Jobs");
+
+        // For testing filling a lot of jobs
         if (window.debug) {
             window.debug.createJobs = async (numJobs) => {
                 Array(numJobs)
@@ -37,34 +32,37 @@ export default function JobsPage() {
         }
     }, [jobCtx]);
 
-    if (jobCtx.isLoading) {
-        return <LoadingSpinner />;
+    // TODO: Looks not so good how it's done, think about other way when have more knowledge
+    useEffect(() => {
+        jobCtx.getJobs();
+    }, []);
+
+    let jobs = [];
+
+    if (!jobCtx.isLoading) {
+        // Populate the jobs after there is data
+        jobs = jobCtx.currPosition
+            ? jobCtx.jobs.filter((job) => job.position === jobCtx.currPosition)
+            : jobCtx.jobs;
     }
 
     return (
-        <PageStyle>
+        <Page>
             <SelectPosition
                 positions={jobCtx.positions}
                 setCurrPosition={jobCtx.setCurrPosition}
                 title="Filter By Job"
                 styled={{ marginBottom: "1rem" }}
+                isDisabled={jobCtx.isLoading}
             />
 
-            {jobCtx.jobs.length === 0 && (
-                <p>There are not jobs yet, add a job</p>
-            )}
-            {jobCtx.jobs.length > 0 && (
-                <JobTable
-                    allJobs={
-                        jobCtx.currPosition
-                            ? jobCtx.jobs.filter(
-                                  (job) => job.position === jobCtx.currPosition
-                              )
-                            : jobCtx.jobs
-                    }
-                />
-            )}
-            <CreateJobButton onCreateJob={jobCtx.onCreateJob} />
-        </PageStyle>
+            {/* FIXME: There is a visual jump on the filled table when changing between pages */}
+            <JobTable allJobs={jobs} isLoading={jobCtx.isLoading} />
+
+            <SharedCreateButton
+                onCreate={jobCtx.onCreateJob}
+                modalType={"job"}
+            />
+        </Page>
     );
 }

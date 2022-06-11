@@ -160,6 +160,7 @@ export const JobContextProvider = ({ children }) => {
     );
 };
 
+// For reference look at https://kentcdodds.com/blog/how-to-use-react-context-effectively#the-custom-consumer-hook
 export const useJobCtx = () => {
     const context = useContext(JobContext);
 

@@ -4,8 +4,6 @@ import { useAuthCtx } from "../../store/auth-context";
 import RegularButton from "../../ui/button/RegularButton";
 const { TabPane } = Tabs;
 
-// const retriveNav =
-
 export default function MainNavigation() {
     const authCtx = useAuthCtx();
     const history = useHistory();

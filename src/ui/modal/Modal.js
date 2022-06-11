@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const ModalStyle = styled.div`
+const Modal = styled.div`
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
     border-radius: 6px;
     background-color: white;
@@ -13,6 +13,4 @@ const ModalStyle = styled.div`
     left: calc(50% - 15rem);
 `;
 
-export default function Modal({ children }) {
-    return <ModalStyle>{children}</ModalStyle>;
-}
+export default Modal;

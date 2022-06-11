@@ -23,6 +23,7 @@ export default function SelectPosition({
     setCurrPosition,
     title,
     styled,
+    isDisabled,
 }) {
     const [isAllPositionSelected, setIsAllPositionSelected] = useState(false);
 
@@ -41,7 +42,7 @@ export default function SelectPosition({
 
     return (
         <Space wrap style={styled}>
-            <Selected>
+            <Selected disabled={isDisabled}>
                 <Select onChange={handleChange} placeholder={title}>
                     {/*Only show the 'All Positions' option at the begin state
                 and when the 'All Position' is selected */}

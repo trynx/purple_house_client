@@ -30,8 +30,9 @@ const columns = [
 ];
 
 const daysDifference = (startDate, endDate) => {
+    const secondsInDays = 1000 * 3600 * 24;
     const diffSeconds = endDate.getTime() - startDate.getTime();
-    const diffDays = Math.ceil(diffSeconds / (1000 * 3600 * 24));
+    const diffDays = Math.ceil(diffSeconds / secondsInDays);
 
     return diffDays;
 };
@@ -43,7 +44,7 @@ const calcDaysOpen = (dateOpen) => {
     return daysDifference(openDay, currDay);
 };
 
-export default function JobTable({ allJobs }) {
+export default function JobTable({ allJobs, isLoading }) {
     const jobs = allJobs.map((job) => ({
         key: job._id,
         position: job.position,
@@ -54,13 +55,13 @@ export default function JobTable({ allJobs }) {
     }));
 
     return (
-        // pagination={{ position: ['bottomCenter'] }}
         <Table
             columns={columns}
             dataSource={jobs}
             pagination={{ position: ["bottomCenter"] }}
             scroll={{ y: "40vh" }}
             bordered={true}
+            loading={isLoading}
         />
     );
 }
