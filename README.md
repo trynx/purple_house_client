@@ -4,13 +4,9 @@ This is the clien side for the app 'Purple House'.
 
 [For Server side](https://github.com/trynx/purple_house_server)
 
-This is an app which uses: React, Routers and axios
-
-[add technologies/frameworks as I'm implementing them]
-
 ## Installation
 
-To install this project you should run `npm run init`, as there is a package(rechart) that stil doesn't support react 18, so it'll force install only that package and then the rest of the packages will be installed.
+To install this project you should run `npm run init`, as there is a package(![rechart](https://github.com/recharts/recharts/issues/2813)) that stil doesn't support react 18, so it'll force install only that package and then the rest of the packages will be installed.
 
 ## Colors palette
 
