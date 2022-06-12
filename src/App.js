@@ -15,17 +15,17 @@ function App() {
     return (
         <Layout>
             <Switch>
-                <Route path='/' exact>
-                    {!authCtx.isLoggedIn && <AuthPage />}
-                    {authCtx.isLoggedIn && <Redirect to='/jobs' />}
-                </Route>
                 <JobContextProvider>
-                    <Route path='/jobs'>
-                        {authCtx.isLoggedIn && <JobsPage />}
-                        {startPage}
+                    <Route path='/' exact>
+                        {!authCtx.isLoggedIn && <AuthPage />}
+                        {authCtx.isLoggedIn && <Redirect to='/candidates' />}
                     </Route>
                     <Route path='/candidates'>
                         {authCtx.isLoggedIn && <CandidatesPage />}
+                        {startPage}
+                    </Route>
+                    <Route path='/jobs'>
+                        {authCtx.isLoggedIn && <JobsPage />}
                         {startPage}
                     </Route>
                     <Route path='/dashboard'>

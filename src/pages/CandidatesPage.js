@@ -7,6 +7,7 @@ import SearchCandidate from "../components/candidate/SearchCandidate";
 import SharedCreateButton from "../components/shared/SharedCreateButton";
 import { useAuthCtx } from "../store/auth-context";
 import { useJobCtx } from "../store/job-context";
+import { useNavCtx } from "../store/nav-context";
 import LoadingSpinner from "../ui/LoadingSpinner";
 import Page from "../ui/page/Page";
 import SelectPosition from "../ui/select/SelectPosition";
@@ -25,6 +26,7 @@ export default function CandidatesPage() {
     const [debugFile, setDebugFile] = useState();
     const authCtx = useAuthCtx();
     const jobCtx = useJobCtx();
+    const navCtx = useNavCtx();
 
     const getCandidates = useCallback(async () => {
         setIsLoading(true);
@@ -177,6 +179,10 @@ export default function CandidatesPage() {
     useEffect(() => {
         getCandidates();
     }, [getCandidates]);
+
+    useEffect(() => {
+        navCtx.updateRouter("/candidates");
+    }, [navCtx]);
 
     if (isLoading) {
         return <LoadingSpinner />;

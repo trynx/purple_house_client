@@ -2,11 +2,13 @@ import { useEffect } from "react";
 import JobTable from "../components/job/JobTable";
 import SharedCreateButton from "../components/shared/SharedCreateButton";
 import { useJobCtx } from "../store/job-context";
+import { useNavCtx } from "../store/nav-context";
 import Page from "../ui/page/Page";
 import SelectPosition from "../ui/select/SelectPosition";
 
 export default function JobsPage() {
     const jobCtx = useJobCtx();
+    const navCtx = useNavCtx();
 
     useEffect(() => {
         // For testing filling a lot of jobs
@@ -34,6 +36,10 @@ export default function JobsPage() {
     useEffect(() => {
         jobCtx.getJobs();
     }, []);
+
+    useEffect(() => {
+        navCtx.updateRouter("/jobs");
+    }, [navCtx]);
 
     let jobs = [];
 
