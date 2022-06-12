@@ -1,6 +1,6 @@
 import { message } from "antd";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Cell, Legend, Pie, PieChart, Tooltip } from "recharts";
 import { useAuthCtx } from "../../store/auth-context";
 import LoadingSpinner from "../../ui/LoadingSpinner";
@@ -53,28 +53,29 @@ export default function DashboardChart() {
     if (pieData.length > 0) {
         // Only show message of 'Other' category when it exist
         let isOtherCategoryExist = false;
-
         const pieContent = pieData.map((entry, index) => {
             if (entry.name === "Other") {
                 isOtherCategoryExist = true;
             }
-
             return <Cell key={`cell-${index}`} fill={entry.color} />;
         });
-
         pageContent = (
-            <>
+            <div
+                style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                }}>
                 <PieChart width={730} height={300}>
                     <Pie
                         data={pieData}
-                        color="#000000"
-                        dataKey="value"
-                        nameKey="name"
-                        cx="50%"
-                        cy="50%"
+                        color='#000000'
+                        dataKey='value'
+                        nameKey='name'
+                        cx='50%'
+                        cy='50%'
                         outerRadius={120}
-                        fill="#8884d8"
-                    >
+                        fill='#8884d8'>
                         {pieContent}
                     </Pie>
                     <Tooltip content={<CustomTooltip />} />
@@ -86,7 +87,7 @@ export default function DashboardChart() {
                         *Jobs with less than 1% candidates are in 'Others'
                     </p>
                 )}
-            </>
+            </div>
         );
     }
 

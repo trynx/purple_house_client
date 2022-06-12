@@ -12,24 +12,22 @@ This is an app which uses: React, Routers and axios
 
 To install this project you should run `npm run init`, as there is a package(rechart) that stil doesn't support react 18, so it'll force install only that package and then the rest of the packages will be installed.
 
-# Colors palette
+## Colors palette
 
 -   Primary: ![#6659e0](https://via.placeholder.com/15/6659e0/000000?text=+) #6659e0 -- For Text, icons, etc..
 -   Secondary: ![#c8cdd0](https://via.placeholder.com/15/c8cdd0/000000?text=+) #c8cdd0 -- For borders
 -   Tertiary: ![#2a37c0](https://via.placeholder.com/15/2a37c0/000000?text=+) #2a37c0 -- For hovers
 -   Background: ![#ffffff98](https://via.placeholder.com/15/ffffff98/000000?text=+) #ffffff98
 
-# Debugging
+## Debugging
 
-## Debugging functions from devtools
+### Debugging functions from devtools
 
 When in dev env, there will be an object in the devtool by the name `debug`
 and it includes all the debug functions:
 
 -   createJobs(number) - Will create new jobs depend on the number
--   TODO: cleanJobs() - Will delete all jobs
--   TODO: createCandidents(number) - Will create new candidates depend on the number
--   TODO: cleanCandidents() - Will delete all candidates
+-   createCandidents(number) - Will create new candidates depend on the number
 
 # Getting Started with Create React App
 
