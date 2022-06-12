@@ -49,7 +49,7 @@ export default function JobsPage() {
             <SelectPosition
                 positions={jobCtx.positions}
                 setCurrPosition={jobCtx.setCurrPosition}
-                title="Filter By Job"
+                title='Filter By Job'
                 styled={{ marginBottom: "1rem" }}
                 isDisabled={jobCtx.isLoading}
             />

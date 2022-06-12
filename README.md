@@ -8,6 +8,10 @@ This is an app which uses: React, Routers and axios
 
 [add technologies/frameworks as I'm implementing them]
 
+## Installation
+
+To install this project you should run `npm run init`, as there is a package(rechart) that stil doesn't support react 18, so it'll force install only that package and then the rest of the packages will be installed.
+
 # Colors palette
 
 -   Primary: ![#6659e0](https://via.placeholder.com/15/6659e0/000000?text=+) #6659e0 -- For Text, icons, etc..

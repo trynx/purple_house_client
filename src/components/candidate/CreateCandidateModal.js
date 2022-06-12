@@ -71,30 +71,30 @@ export default function CreateCandidateModal({ onClose, onCreateCandidate }) {
             <FormStyle onSubmit={createHandler}>
                 <ModalTitle>Add Candidate</ModalTitle>
                 <ModalFormInput>
-                    <Input id="name" type="text" required placeholder="Name" />
+                    <Input id='name' type='text' required placeholder='Name' />
                 </ModalFormInput>
                 <ModalFormInput>
                     <Input
-                        type="email"
-                        id="email"
+                        type='email'
+                        id='email'
                         required
-                        placeholder="Email"
+                        placeholder='Email'
                     />
                 </ModalFormInput>
                 <ModalFormInput>
                     <Input
-                        type="number"
-                        id="phone"
+                        type='number'
+                        id='phone'
                         required
-                        placeholder="Phone"
+                        placeholder='Phone'
                     />
                 </ModalFormInput>
                 <ModalFormInput>
                     <Input
-                        type="text"
-                        id="currentJob"
+                        type='text'
+                        id='currentJob'
                         required
-                        placeholder="Current Job"
+                        placeholder='Current Job'
                     />
                 </ModalFormInput>
                 <SelectPosition
@@ -106,7 +106,7 @@ export default function CreateCandidateModal({ onClose, onCreateCandidate }) {
                         };
                     })}
                     setCurrPosition={setCurrPositionId}
-                    title="Select Position"
+                    title='Select Position'
                 />
                 <CandidateUploadResume
                     fileList={fileList}
@@ -115,21 +115,18 @@ export default function CreateCandidateModal({ onClose, onCreateCandidate }) {
                         marginTop: "2rem",
                         width: "200px",
                         marginBottom: "2rem",
-                    }}
-                ></CandidateUploadResume>
+                    }}></CandidateUploadResume>
                 <div>
                     <RegularButton
-                        type="button"
+                        type='button'
                         onClick={cancelHandler}
-                        style={{ marginRight: "3rem" }}
-                    >
+                        style={{ marginRight: "3rem" }}>
                         Cancel
                     </RegularButton>
                     <RegularButton
-                        type="submit"
+                        type='submit'
                         disabled={isCreatingCandidate}
-                        isFilled={true}
-                    >
+                        isFilled={true}>
                         {!isCreatingCandidate && "Create"}
                         {isCreatingCandidate && <SyncOutlined spin />}
                     </RegularButton>
