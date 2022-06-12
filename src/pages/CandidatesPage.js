@@ -1,3 +1,4 @@
+import { message } from "antd";
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
@@ -21,12 +22,9 @@ export default function CandidatesPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [candidates, setCandidates] = useState([]);
     const [candidateSearch, setCandidateSearch] = useState("");
+    const [debugFile, setDebugFile] = useState();
     const authCtx = useAuthCtx();
     const jobCtx = useJobCtx();
-
-    useEffect(() => {
-        console.log("In Candidates");
-    }, []);
 
     const getCandidates = useCallback(async () => {
         setIsLoading(true);
@@ -84,6 +82,10 @@ export default function CandidatesPage() {
             // TODO: Where is best to save the URL?
             const url = "http://localhost:8088/api/candidate/create";
 
+            if (window.debug) {
+                setDebugFile(candidateData.get("file"));
+            }
+
             let result;
             try {
                 result = await axios.post(url, candidateData, {
@@ -96,12 +98,12 @@ export default function CandidatesPage() {
                 let errorMsg =
                     err.response?.data?.message ??
                     "Issue with creating a candidate";
-                alert(errorMsg);
+                message.error(errorMsg);
                 return;
             }
 
             if (!result) {
-                alert("Issue with creating a candidate");
+                message.error("Issue with creating a candidate");
                 return;
             }
 
@@ -109,33 +111,68 @@ export default function CandidatesPage() {
 
             if (result.statusText !== "OK") {
                 if (!data) {
-                    alert("Issue with creating a candidate");
+                    message.error("Issue with creating a candidate");
                     return;
                 }
 
                 // Some error in the server while retriving the candidates
                 if (!data.isRetry) {
-                    alert(data.message);
+                    message.error(data.message);
                     return;
                 }
 
                 const isTokenRefreshed = await authCtx.retryToken();
                 if (!isTokenRefreshed) {
-                    alert("Issue with creating a candidate");
+                    message.error("Issue with creating a candidate");
                 }
 
                 return;
             }
 
-            console.log("Added new candidate", {
-                candidateData: candidateData,
-            });
             getCandidates();
 
             return true;
         },
         [authCtx, getCandidates]
     );
+
+    useEffect(() => {
+        // For testing filling a lot of jobs
+        if (window.debug) {
+            window.debug.createCandidates = async (numCandidates) => {
+                if (!debugFile) {
+                    console.error(
+                        "Please add a candidate to use their resume file to create other candidates."
+                    );
+                    return;
+                }
+
+                Array(numCandidates)
+                    .fill(0)
+                    .forEach(() => {
+                        const randomExtra = crypto.randomUUID();
+
+                        const candidateData = new FormData();
+
+                        // Get each form value by it's id
+                        candidateData.append("name", randomExtra);
+                        candidateData.append(
+                            "email",
+                            randomExtra + "@gmail.com"
+                        );
+                        candidateData.append("phone", "123123");
+                        candidateData.append("currentJob", "Groot");
+                        candidateData.append(
+                            "position",
+                            "62a4c988736486580a2680b5"
+                        );
+                        candidateData.append("file", debugFile);
+
+                        onCreateCandidate(candidateData);
+                    });
+            };
+        }
+    }, [debugFile, onCreateCandidate]);
 
     useEffect(() => {
         getCandidates();

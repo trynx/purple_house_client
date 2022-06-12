@@ -1,9 +1,10 @@
-import { useEffect } from "react";
+import DashboardChart from "../components/dashboard/DashboardChart";
+import Page from "../ui/page/Page";
 
 export default function DashboardPage() {
-    useEffect(() => {
-        console.log("In Dashboard");
-    }, []);
-
-    return <p>Dashboard :)</p>;
+    return (
+        <Page>
+            <DashboardChart />
+        </Page>
+    );
 }

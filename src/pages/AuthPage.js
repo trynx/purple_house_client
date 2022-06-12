@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import styled from "styled-components";
 import AuthForm from "../components/auth/AuthForm";
 
@@ -16,10 +15,6 @@ const AuthFormStyle = styled.div`
 `;
 
 export default function AuthPage() {
-    useEffect(() => {
-        console.log("In Auth");
-    }, []);
-
     return (
         <AuthFormStyle>
             <AuthForm />

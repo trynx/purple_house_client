@@ -1,4 +1,4 @@
-import { Divider } from "antd";
+import { Divider, message } from "antd";
 import axios from "axios";
 import styled from "styled-components";
 import { useAuthCtx } from "../../store/auth-context";
@@ -48,12 +48,12 @@ export default function CandidateItem({ candidateData }) {
             let errorMsg =
                 err.response?.data?.message ??
                 "Issue with downloading the resume a candidate";
-            alert(errorMsg);
+            message.error(errorMsg);
             return;
         }
 
         if (!result) {
-            alert("Couldn't download the resume");
+            message.error("Couldn't download the resume");
             return;
         }
 
@@ -61,19 +61,19 @@ export default function CandidateItem({ candidateData }) {
 
         if (result.statusText !== "OK") {
             if (!data) {
-                alert("Issue with downloading the resume a candidate");
+                message.error("Issue with downloading the resume a candidate");
                 return;
             }
 
             // Some error in the server while retriving the candidates
             if (!data.isRetry) {
-                alert(data.message);
+                message.error(data.message);
                 return;
             }
 
             const isTokenRefreshed = await authCtx.retryToken();
             if (!isTokenRefreshed) {
-                alert("Issue with downloading the resume a candidate");
+                message.error("Issue with downloading the resume a candidate");
             }
 
             // Refresh token
@@ -89,6 +89,10 @@ export default function CandidateItem({ candidateData }) {
         document.body.appendChild(link);
         link.click();
     };
+
+    if (!position) {
+        return null;
+    }
 
     return (
         <CardStyle>

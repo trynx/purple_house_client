@@ -23,8 +23,6 @@ export const JobContextProvider = ({ children }) => {
     const getJobsHandler = useCallback(async () => {
         setIsLoading(true);
 
-        console.log("Get Jobs");
-
         // TODO: Change as needed to the backend url
         const url = "http://localhost:8088/api/job/";
 
@@ -53,7 +51,6 @@ export const JobContextProvider = ({ children }) => {
                 const isTokenRefreshed = await authCtx.retryToken();
                 if (!isTokenRefreshed) {
                     // TODO: Can add better error showing
-                    setIsLoading(false);
                     setJobs([]);
                 }
 
@@ -62,11 +59,12 @@ export const JobContextProvider = ({ children }) => {
 
             const jobs = data;
 
-            setIsLoading(false);
             setJobs(jobs);
         } catch (err) {
             console.error("Error at JobPage fetch all jobs");
             console.error(err);
+        } finally {
+            setIsLoading(false);
         }
     }, [authCtx]);
 

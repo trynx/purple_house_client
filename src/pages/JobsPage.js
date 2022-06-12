@@ -9,8 +9,6 @@ export default function JobsPage() {
     const jobCtx = useJobCtx();
 
     useEffect(() => {
-        console.log("In Jobs");
-
         // For testing filling a lot of jobs
         if (window.debug) {
             window.debug.createJobs = async (numJobs) => {
